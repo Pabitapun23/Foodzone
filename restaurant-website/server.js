@@ -18,7 +18,7 @@ app.set("view engine", ".hbs");
 const mongoose = require("mongoose");
 const { timeStamp } = require("console");
 const CONNECTION_STRING =
-  "mongodb+srv://dbUser:d06dIP5StLVihvvD@cluster0.r7i9qdi.mongodb.net/myDb?retryWrites=true&w=majority";
+  "mongodb+srv://fullstackdevgp4:8UtK5TqzKdnNBtLc@gp4.cdryyds.mongodb.net/project_g04?retryWrites=true&w=majority";
 mongoose.connect(CONNECTION_STRING);
 
 const db = mongoose.connection;
@@ -128,7 +128,7 @@ app.post("/add-order", async (req, res) => {
         today.getSeconds(),
       status: RECEIVED,
       items: cart,
-      driver: request.driver,
+      driver: "",
     });
 
     await order.save();
