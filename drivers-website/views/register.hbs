@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+</head>
+<body>
+    <div>
+        <h1>Please fill in below:</h1>
+        {{#if error}}
+            <h2>{{this.error}}</h2>
+        {{/if}}
+        <form action="/register" method="post">
+            <div style="display:flex; flex-direction: column; gap:20px">
+                <div class="form-group">
+                    <label for="username">User name:</label>
+                    <input type="text" name="username">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" name="password">
+                </div>
+
+                <div class="form-group">
+                    <label for="fullname">Full name:</label>
+                    <input type="text" name="fullname">
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        What's your vehicle?
+                    </label>
+                    <label for="vehicleModel">
+                        <input type="radio" name="model" value="bike">
+                        Bike
+                    </label>
+                    <label for="vehicleModel">
+                        <input type="radio" name="model" value="car">
+                        Car
+                    </label>
+                    <label for="vehicleModel">
+                        <input type="radio" name="model" value="suv">
+                        SUV
+                    </label>
+                    <label for="vehicleModel">
+                        <input type="radio" name="model" value="truck">
+                        E-scooter
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label for="color">Color:</label>
+                    <input type="text" name="color">
+
+                </div>
+
+                <div class="form-group">
+                    <label for="color">license:</label>
+                    <input type="text" name="license">
+                </div>
+
+                <button type="submit" style="width:10%">Confirm</button>
+            </div>
+        </form>
+
+        <form action="/login" method="get">
+            <button type="submit" style="width:10%">Return</button>
+        </form>
+    </div>
+</body>
+</html>
