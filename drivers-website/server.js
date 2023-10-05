@@ -12,8 +12,9 @@ app.set('view engine', 'hbs');
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static("public"))
 const HTTP_PORT = process.env.PORT || 3000
-const mongoose = require("mongoose")
 
+/******************* Database setup ********************/
+const mongoose = require("mongoose")
 const CONNECTION_STRING = "mongodb+srv://fullstackdevgp4:8UtK5TqzKdnNBtLc@gp4.cdryyds.mongodb.net/project_g04?retryWrites=true&w=majority"
 mongoose.connect(CONNECTION_STRING);
 
@@ -30,7 +31,9 @@ const driverSchema = new mongoose.Schema({
     license: String,
 })
 const driverAccount = mongoose.model("drivers", driverSchema)
+/******************* Database setup ********************/
 
+/******************* Session middleware setup ********************/
 const sessionQuery = (req, res, next) => {
     console.log(req.session)
     if (req.session.username) {
@@ -38,6 +41,7 @@ const sessionQuery = (req, res, next) => {
     }
     return res.redirect("/login")
 }
+/******************* Session middleware setup ********************/
 
 app.get("/",sessionQuery,(req, res) => {
     return res.redirect("/dashboard")
