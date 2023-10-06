@@ -1,0 +1,23 @@
+<main>
+{{! Order status section }}
+  <h1>Check the Status of your Order</h1>
+
+  {{! form for checking order status }}
+  <form action="" method="post">
+    <label for="orderId">Order ID</label>
+    <br />
+    <input type="text" name="orderId" placeholder="Enter your order Id" />
+    <br />
+    <button type="submit" id="btn-check">Check</button>
+  </form>
+
+  {{!-- Order status result section --}}
+  {{!-- This will be visible after checking status --}}
+  <section id="statusContainer">
+    <h2>Your Order Status :</h2>
+    <section id="statusCard">
+      <p>Order ID: <span>123</span></p>
+      <p>Status: <span>In progress</span></p>
+    </section>
+  </section>
+</main>

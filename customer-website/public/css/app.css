@@ -1,0 +1,177 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  /* overflow: hidden; */
+}
+
+header {
+  padding: 15px 0;
+  background-color: #DD571C;
+}
+
+/* Styling Navigation section */
+nav {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Styling logo */
+#logo {
+  font-size: 40px;
+  padding-left: 50px;
+  padding-top: 5px;
+  text-decoration: none;
+  color: #fcf6f5;
+}
+
+/* styling nav links */
+
+nav ul {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding-right: 50px;
+  gap: 30px;
+  list-style-type: none;
+}
+
+nav a {
+  text-decoration: none;
+  color: #fcf6f5;
+  font-size: 20px;
+}
+
+nav a:hover {
+  color: black;
+}
+
+/* styling order status main-section */
+h1 {
+  font-size: 35px;
+  color: #8D4004;
+  text-align: center;
+  margin: 40px auto;
+}
+
+form {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #efebeb;
+  padding: 30px;
+  width: 23%;
+  margin: 10px auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+label {
+  font-size: 25px;
+}
+
+input {
+  width: 100%;
+  font-size: 20px;
+  color: gray;
+  border: 1px solid gray;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+/* style check button */
+#btn-check {
+  border: 1px solid #DD571C;
+  border-radius: 8px;
+  background-color: #DD571C;
+  color: white;
+  padding: 10px 20px;
+  font-size: 20px;
+  width: 30%;
+  margin: 0 auto;
+}
+
+#btn-check:hover {
+  color: white;
+  background-color: #8D4004;
+  border: 1px solid #8D4004;
+}
+
+/* Order Status result section */
+#statusContainer {
+  margin: 20px auto 75px auto;
+  /* border: 1px solid black; */
+}
+
+#statusContainer > h2 {
+  font-size: 30px;
+  color: #8D4004;
+  text-align: center;
+  padding-top: 10px;
+}
+
+#statusCard {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #efebeb;
+  padding: 30px;
+  width: 23%;
+  margin: 10px auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#statusCard p {
+  font-size: 25px;
+  margin: 0;
+  padding: 10px;
+}
+
+#statusCard span {
+  color: #DD571C;
+} 
+
+/* style order button */
+#btn-order {
+  border: 1px solid #DD571C;
+  border-radius: 8px;
+  background-color: #DD571C;
+  color: white;
+  padding: 10px 20px;
+  font-size: 20px;
+  width: 30%;
+  margin: 0 auto;
+}
+
+#btn-order:hover {
+  color: white;
+  background-color: #8D4004;
+  border: 1px solid #8D4004;
+}
+
+
+/* styling footer section */
+footer {
+  background-color: #DD571C;
+  color: #fff;
+  padding: 40px 0;
+  text-align: center;
+  font-size: 20px;
+}
+
+/* Styling of footer social media icons using class selector */
+#social-media-icons {
+  text-align: center;
+  list-style-type: none;
+  display: flex;
+  justify-content: center;
+  padding-top: 10px;
+}
+
+#social-media-icons a {
+  text-decoration: none;
+  padding: 20px 10px;
+  color: #fff;
+}
