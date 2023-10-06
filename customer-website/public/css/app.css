@@ -168,6 +168,8 @@ footer {
   display: flex;
   justify-content: center;
   padding-top: 10px;
+  padding-left: 0;
+
 }
 
 #social-media-icons a {

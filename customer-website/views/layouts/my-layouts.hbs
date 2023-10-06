@@ -4,19 +4,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Restaurant</title>
 
-    {{!-- External Stylesheet --}}
-    {{!-- <link rel="stylesheet" href="/public/css/styles.css"> --}}
-        <link rel="stylesheet" href="/css/app.css">
-        
+    {{! External Stylesheet }}
+    {{! <link rel="stylesheet" href="/public/css/styles.css"> }}
+    <link rel="stylesheet" href="/css/app.css" />
+
   </head>
   <body>
     {{! Navigation Section }}
     <header>
       <nav>
-        {{!-- Logo section --}}
+        {{! Logo section }}
         <a href="/" id="logo">FOodZone</a>
 
-       {{!-- Navbar links --}}
+        {{! Navbar links }}
         <ul>
           <li><a href="/">Home</a></li>
           <li><a href="/order-form">Order Form</a></li>
@@ -28,13 +28,26 @@
     {{! This is a main section which will change for different pages }}
     {{{body}}}
 
-    {{!-- Footer section --}}
+    {{! Footer section }}
     <footer>
       <p>&copy; This is restaurant webpage</p>
       <ul id="social-media-icons">
-        <li><a href="#">Facebook</a></li>
-        <li><a href="#">Instagram</a></li>
-        <li><a href="#">Youtube</a></li>
+        <li><a href="#"><img
+              src="/images/footer-icons/facebook_icon.png"
+              alt="This is Facebook Icon"
+            /></a></li>
+        <li><a href="#"><img
+              src="/images/footer-icons/instagram_icon.png"
+              alt="This is Facebook Icon"
+            /></a></li>
+        <li><a href="#"><img
+              src="/images/footer-icons/twitter_icon.png"
+              alt="This is Facebook Icon"
+            /></a></li>
+        <li><a href="#"><img
+              src="/images/footer-icons/tiktok_icon.png"
+              alt="This is Facebook Icon"
+            /></a></li>
       </ul>
     </footer>
 
