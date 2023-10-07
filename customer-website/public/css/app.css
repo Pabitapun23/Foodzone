@@ -186,7 +186,7 @@ h2 {
   border: 1px solid white;
   width: 250px;
   background-color: white;
-  padding-bottom: 10px;
+  padding-bottom: 20px;
 }
 
 .menuCardDetail {
@@ -221,8 +221,6 @@ h2 {
   width: 20%;
   text-decoration: none;
   text-align: center;
-  display: inline-block;
-  margin: 0 auto;
 }
 
 .menuCardDetail a:hover {
