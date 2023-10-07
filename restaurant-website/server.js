@@ -1,7 +1,7 @@
 // #region BOILERPLATE 1
 const express = require("express");
 const app = express();
-const HTTP_PORT = process.env.PORT || 8888;
+const HTTP_PORT = process.env.PORT || 8882;
 const path = require("path");
 
 app.use(express.static("assets"));
@@ -26,16 +26,18 @@ db.on("error", console.error.bind(console, "Error connecting to database: "));
 db.once("open", () => {
   console.log("Mongo DB connected successfully.");
 });
+// #endregion MONGOOSE
 
-// schema
+// #region SCHEMAS & MODELS
 const Schema = mongoose.Schema;
-const item = new Schema({
+const itemSchema = new Schema({
   name: String,
   image: String,
   description: String,
   price: Number,
 });
-const driver = new Schema({
+
+const driverSchema = new Schema({
   username: String,
   password: String,
   name: String,
@@ -43,7 +45,8 @@ const driver = new Schema({
   color: String,
   license: String,
 });
-const order = new Schema({
+
+const orderSchema = new Schema({
   customer: String,
   address: String,
   timestamp: String,
@@ -52,11 +55,10 @@ const order = new Schema({
   driver: String,
 });
 
-// model
-const Order = mongoose.model("orders", order);
-const Item = mongoose.model("items", item);
-const Driver = mongoose.model("drivers", driver);
-// #endregion MONGOOSE
+const Order = mongoose.model("orders_collection", orderSchema);
+const Item = mongoose.model("items_collection", itemSchema);
+const Driver = mongoose.model("drivers_collection", driverSchema);
+// #endregion SCHEMAS & MODELS
 
 const RECEIVED = 0;
 const READY_FOR_DELIVERY = 1;
