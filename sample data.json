@@ -1,0 +1,70 @@
+// #region ITEMS
+    [{
+        "name": "Chips",
+        "image": "chips",
+        "description": "1 Bag of Potato Chips",
+        "price": 3.67
+    },{
+        "name": "Pudding",
+        "image": "pudding",
+        "description": "1 Bowl Vanilla Pudding",
+        "price": 1.97
+    },{
+        "name": "Sushi",
+        "image": "sushi",
+        "description": "3 pcs Sake & 3 pcs Uni Sushi",
+        "price": 15.99
+    },{
+        "name": "Ice Cream",
+        "image": "ice cream",
+        "description": "1 Scoop of Any Flavor Ice Cream",
+        "price": 8.00
+    },{
+        "name": "Pizza",
+        "image": "pizza",
+        "description": "1 Slice of Any Flavor Pizza",
+        "price": 4.99
+    }]
+// #endregion ITEMS
+
+// #region DRIVERS
+[{
+    "username": "blossom",
+    "password": "1blossom",
+    "name": "Blossom Pink",
+    "vehicle": "Mini Cooper",
+    "color": "Pink",
+    "license": "BLSM-001"
+    },{
+    "username": "bubbles",
+    "password": "2bubbles",
+    "name": "Bubbles Blue",
+    "vehicle": "Chevrolet",
+    "color": "Blue",
+    "license": "BBLS-002"
+    },{
+    "username": "buttercup",
+    "password": "3buttercup",
+    "name": "Buttercup Green",
+    "vehicle": "Volkswagen",
+    "color": "Green",
+    "license": "BTCP-003"
+    }]
+// #endregion DRIVERS
+
+// region ORDERS 
+{
+    "customer": "Brick",
+    "address": "Red House",
+    "timestamp": Date.now(),
+    "status": 0,
+    "items": [{
+        "item": "651cf39e2ac461a0e2bfe575",
+        "quantity": 15
+    }, {
+        "item" :"651cf39e2ac461a0e2bfe577",
+        "quantity" : 1
+    }],
+    "driver": "651cf4dd2ac461a0e2c2c8f7"
+}
+// #endregion ORDERS

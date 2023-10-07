@@ -1,8 +1,25 @@
 <main>
   {{#each details}}
     <div>
-      <p>{{this.timestamp}} - {{this.customer}}</p>
-      <p>{{this.address}}</p>
+      <form action="/" method="post">
+        <p>{{timestamp}}</p>
+        <p>Status: {{status}}</p>
+        <p>Customer: {{customer}}</p>
+        <p>Address: {{address}}</p>
+        <p>Orders:</p>
+        <ul>
+          {{#each items}}
+            <li><p>{{item.name}} - {{item.price}}</p><p>
+                x
+                {{quantity}}
+                =
+                {{total}}
+              </p></li>
+          {{/each}}
+        </ul>
+        {{#if driver}}<p>Driver: {{driver.name}}</p>{{/if}}
+        <input type="text" value="{{_id}}" name="item" class="hidden" />
+      </form>
     </div>
   {{/each}}
 </main>
