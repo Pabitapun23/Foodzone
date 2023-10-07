@@ -7,7 +7,7 @@ body {
 
 header {
   padding: 15px 0;
-  background-color: #DD571C;
+  background-color: #dd571c;
   z-index: 2;
 }
 
@@ -58,7 +58,7 @@ nav a:hover {
   justify-content: center;
   align-items: center;
   font-size: 30px;
-  background-color: rgba(0,0,0,0.5);
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 #main-banner-img {
@@ -87,9 +87,9 @@ nav a:hover {
 
 /* style order now button */
 #btn-order-now {
-  border: 1px solid #DD571C;
+  border: 1px solid #dd571c;
   border-radius: 8px;
-  background-color: #DD571C;
+  background-color: #dd571c;
   color: white;
   padding: 15px 20px;
   font-size: 22px;
@@ -101,10 +101,11 @@ nav a:hover {
 
 #btn-order-now:hover {
   color: white;
-  background-color: #8D4004;
-  border: 1px solid #8D4004;
+  background-color: #8d4004;
+  border: 1px solid #8d4004;
 }
 
+/* style about us section */
 #about-us-section {
   background-color: #fcf6f5;
   margin: 0;
@@ -117,7 +118,7 @@ h2 {
   padding-bottom: 10px;
   margin: 0;
   text-align: center;
-  color: #8D4004;
+  color: #8d4004;
 }
 
 #about-us-container {
@@ -131,13 +132,109 @@ h2 {
 }
 
 #about-us-detail span {
-  color: #DD571C;
+  color: #dd571c;
+}
+
+/* Style featured menu */
+#featureCardContainer {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin: 30px;
+}
+
+.featureCard {
+  border: 1px solid transparent;
+  border-radius: 100px;
+}
+
+.featureCard:hover {
+  opacity: 0.5;
+}
+
+.featureCard img{
+  border: 1px solid transparent;
+  border-radius: 100px;
+  opacity: 1;
+}
+
+.featureMenuItem {
+  color: black;
+  font-size: 24px;
+  opacity: 0;
+  z-index: 1;
+}
+
+.featureCard img:hover + .featureMenuItem{
+  opacity: 1;
+}
+
+/* style main menu section */
+#main-menu-section {
+  background-color: #fcf6f5;
+}
+
+#menuCardContainer {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  margin: 10px 30px 0 30px;
+  padding: 20px 50px 50px 50px;
+}
+
+.menuCard {
+  border: 1px solid white;
+  width: 250px;
+  background-color: white;
+  padding-bottom: 10px;
+}
+
+.menuCardDetail {
+  padding: 8px 20px;
+  font-size: 20px;
+  /* display: flex;
+  flex-direction: column;
+  justify-content: center; */
+}
+
+.menuCardDetail h3 {
+  margin: 5px auto 0 auto;
+}
+
+.menuCardDetail p {
+  margin: 5px 0 0 0;
+  text-align: right;
+  padding: 10px 0 10px 10px;
+}
+
+.menuCardDetail span {
+  color: #8d4004;
+}
+
+.menuCardDetail a {
+  border: 1px solid #dd571c;
+  border-radius: 8px;
+  background-color: #dd571c;
+  color: white;
+  padding: 10px 20px;
+  font-size: 15px;
+  width: 20%;
+  text-decoration: none;
+  text-align: center;
+  display: inline-block;
+  margin: 0 auto;
+}
+
+.menuCardDetail a:hover {
+  color: white;
+  background-color: #8d4004;
+  border: 1px solid #8d4004;
 }
 
 /* styling order status main-section */
 h1 {
   font-size: 35px;
-  color: #8D4004;
+  color: #8d4004;
   text-align: center;
   margin: 40px auto;
 }
@@ -169,9 +266,9 @@ input {
 
 /* style check and order button */
 .btn-form {
-  border: 1px solid #DD571C;
+  border: 1px solid #dd571c;
   border-radius: 8px;
-  background-color: #DD571C;
+  background-color: #dd571c;
   color: white;
   padding: 10px 20px;
   font-size: 20px;
@@ -181,8 +278,8 @@ input {
 
 .btn-form:hover {
   color: white;
-  background-color: #8D4004;
-  border: 1px solid #8D4004;
+  background-color: #8d4004;
+  border: 1px solid #8d4004;
 }
 
 /* Order Status result section */
@@ -193,7 +290,7 @@ input {
 
 #statusContainer > h2 {
   font-size: 30px;
-  color: #8D4004;
+  color: #8d4004;
   text-align: center;
   padding-top: 10px;
 }
@@ -217,13 +314,12 @@ input {
 }
 
 #statusCard span {
-  color: #DD571C;
-} 
-
+  color: #dd571c;
+}
 
 /* styling footer section */
 footer {
-  background-color: #DD571C;
+  background-color: #dd571c;
   color: #fff;
   padding: 40px 0;
   text-align: center;
@@ -238,7 +334,6 @@ footer {
   justify-content: center;
   padding-top: 10px;
   padding-left: 0;
-
 }
 
 #social-media-icons a {
