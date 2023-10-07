@@ -1,7 +1,7 @@
 // #region BOILERPLATE 1
 const express = require("express");
 const app = express();
-const HTTP_PORT = process.env.PORT || 8080;
+const HTTP_PORT = process.env.PORT || 8888;
 const path = require("path");
 
 app.use(express.static("assets"));
@@ -63,8 +63,6 @@ const READY_FOR_DELIVERY = 1;
 const IN_TRANSIT = 2;
 const DELIVERED = 3;
 
-let cart = [];
-
 app.get("/", async (req, res) => {
   const orders = await Item.find().lean().exec();
   const drivers = await Driver.find().lean().exec();
@@ -80,19 +78,45 @@ app.get("/", async (req, res) => {
 app.get("/orders", async (req, res) => {
   const details = await Order.find().lean().exec();
 
-  let items = [];
   for (currOrder of details) {
+    switch (currOrder.status) {
+      case READY_FOR_DELIVERY:
+        currOrder.status = "READY FOR DELIVERY";
+        break;
+      case IN_TRANSIT:
+        currOrder.status = "IN TRANSIT";
+        break;
+      case DELIVERED:
+        currOrder.status = "DELIVERED";
+        break;
+      default:
+        currOrder.status = "RECEIVED";
+    }
+
+    let items = [];
     for (currItem of currOrder.items) {
-      items.push(await Item.findOne({ _id: currItem.item }).lean().exec());
+      const itemDetails = await Item.findOne({ _id: currItem.item })
+        .lean()
+        .exec();
+      items.push({
+        item: itemDetails,
+        quantity: currItem.quantity,
+        total: (currItem.quantity * itemDetails.price).toFixed(2),
+      });
+    }
+    currOrder.items = items;
+
+    if (currOrder.driver !== "") {
+      currOrder.driver = await Driver.findOne({ _id: currOrder.driver })
+        .lean()
+        .exec();
     }
   }
-  console.log(items);
 
   res.render("order", {
     layout: "header-footer",
     page: "Orders",
     details: details,
-    items: items,
   });
 });
 
@@ -135,7 +159,7 @@ app.post("/add-order", async (req, res) => {
     return res.redirect("/orders");
   }
 
-  res.redirect("/");
+  return res.redirect("/");
 });
 
 // #region BIOLERPLATE 2
