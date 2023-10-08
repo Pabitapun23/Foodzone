@@ -1,0 +1,17 @@
+<main>
+  <h1>History</h1>
+  {{#if delivered}}
+    {{#each delivered}}
+      <div class="order-card">
+        <a href="#">
+          <h3>Order #{{_id}}</h3>
+          <p>{{customer}}</p>
+          <p>{{timestamp}}</p>
+        </a>
+      </div>
+      <hr />
+    {{/each}}
+  {{else}}
+    <h3>NO RECORD</h3>
+  {{/if}}
+</main>

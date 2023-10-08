@@ -66,33 +66,14 @@ const IN_TRANSIT = 2;
 const DELIVERED = 3;
 
 app.get("/", async (req, res) => {
-  const orders = await Item.find().lean().exec();
-  const drivers = await Driver.find().lean().exec();
-
-  res.render("index", {
-    layout: "header-footer",
-    page: "Home",
-    orders: orders,
-    drivers: drivers,
-  });
-});
-
-app.get("/orders", async (req, res) => {
-  const details = await Order.find().lean().exec();
+  const details = await Order.find().sort({ timestamp: 1 }).lean().exec();
+  let received = [];
+  let readyForDelivery = [];
+  let inTransit = [];
 
   for (currOrder of details) {
-    switch (currOrder.status) {
-      case READY_FOR_DELIVERY:
-        currOrder.status = "READY FOR DELIVERY";
-        break;
-      case IN_TRANSIT:
-        currOrder.status = "IN TRANSIT";
-        break;
-      case DELIVERED:
-        currOrder.status = "DELIVERED";
-        break;
-      default:
-        currOrder.status = "RECEIVED";
+    if (currOrder.status === DELIVERED) {
+      continue;
     }
 
     let items = [];
@@ -102,23 +83,176 @@ app.get("/orders", async (req, res) => {
         .exec();
       items.push({
         item: itemDetails,
-        quantity: currItem.quantity,
-        total: (currItem.quantity * itemDetails.price).toFixed(2),
+        quantity: currItem.quantity.toString().padStart(2, "0"),
       });
     }
+
+    // currOrder.timestamp = new Date(currOrder.timeStamp);
     currOrder.items = items;
 
-    if (currOrder.driver !== "") {
-      currOrder.driver = await Driver.findOne({ _id: currOrder.driver })
-        .lean()
-        .exec();
+    switch (currOrder.status) {
+      case READY_FOR_DELIVERY:
+        readyForDelivery.push(currOrder);
+        break;
+      case IN_TRANSIT:
+        inTransit.push(currOrder);
+        break;
+      default:
+        received.push(currOrder);
+        break;
     }
   }
 
+  return res.render("index", {
+    layout: "header-footer",
+    page: "Home",
+    received: received,
+    readyForDelivery: readyForDelivery,
+    inTransit: inTransit,
+  });
+});
+
+app.get("/customers", async (req, res) => {
+  const details = await Order.find().sort({ timestamp: 1 }).lean().exec();
+  let response = {
+    received: [],
+    readyForDelivery: [],
+    inTransit: [],
+  };
+
+  for (currOrder of details) {
+    if (currOrder.status === DELIVERED) {
+      continue;
+    }
+
+    let items = [];
+    for (currItem of currOrder.items) {
+      const itemDetails = await Item.findOne({ _id: currItem.item })
+        .lean()
+        .exec();
+      items.push({
+        item: itemDetails,
+        quantity: currItem.quantity.toString().padStart(2, "0"),
+      });
+    }
+
+    // currOrder.timestamp = new Date(currOrder.timeStamp);
+    currOrder.items = items;
+
+    switch (currOrder.status) {
+      case READY_FOR_DELIVERY:
+        response.readyForDelivery.push(currOrder);
+        break;
+      case IN_TRANSIT:
+        response.inTransit.push(currOrder);
+        break;
+      default:
+        response.received.push(currOrder);
+        break;
+    }
+  }
+
+  return res.json(response);
+});
+
+app.get("/customers/:name", async (req, res) => {
+  const pattern = "(?i)" + req.params.name + "(?-i)";
+  const details = await Order.find({
+    customer: { $regex: pattern },
+  })
+    .sort({ timestamp: 1 })
+    .lean()
+    .exec();
+  let response = {
+    received: [],
+    readyForDelivery: [],
+    inTransit: [],
+  };
+
+  for (currOrder of details) {
+    if (currOrder.status === DELIVERED) {
+      continue;
+    }
+
+    let items = [];
+    for (currItem of currOrder.items) {
+      const itemDetails = await Item.findOne({ _id: currItem.item })
+        .lean()
+        .exec();
+      items.push({
+        item: itemDetails,
+        quantity: currItem.quantity.toString().padStart(2, "0"),
+      });
+    }
+
+    // currOrder.timestamp = new Date(currOrder.timeStamp);
+    currOrder.items = items;
+
+    switch (currOrder.status) {
+      case READY_FOR_DELIVERY:
+        response.readyForDelivery.push(currOrder);
+        break;
+      case IN_TRANSIT:
+        response.inTransit.push(currOrder);
+        break;
+      default:
+        response.received.push(currOrder);
+        break;
+    }
+  }
+
+  return res.json(response);
+});
+
+app.get("/orders/:id", (req, res) => {
+  return res.redirect("/");
+});
+
+app.post("/orders/update-status", async (req, res) => {
+  return res.redirect("/");
+});
+
+app.get("/history", async (req, res) => {
+  const details = await Order.find().sort({ timestamp: -1 }).lean().exec();
+  let delivered = [];
+
+  for (currOrder of details) {
+    if (currOrder.status !== DELIVERED) {
+      continue;
+    }
+
+    let items = [];
+    for (currItem of currOrder.items) {
+      const itemDetails = await Item.findOne({ _id: currItem.item })
+        .lean()
+        .exec();
+      items.push({
+        item: itemDetails,
+        quantity: currItem.quantity.toString().padStart(2, "0"),
+      });
+    }
+
+    // currOrder.timestamp = new Date(currOrder.timeStamp);
+    currOrder.items = items;
+    delivered.push(currOrder);
+  }
+
+  return res.render("history", {
+    layout: "header-footer",
+    page: "History",
+    delivered: delivered,
+  });
+});
+
+app.get("/order", async (req, res) => {
+  const orders = await Item.find().lean().exec();
+  const drivers = await Driver.find().lean().exec();
+
   res.render("order", {
     layout: "header-footer",
-    page: "Orders",
-    details: details,
+    page: "Order",
+    orders: orders,
+    drivers: drivers,
   });
 });
 
@@ -143,22 +277,22 @@ app.post("/add-order", async (req, res) => {
       timestamp:
         today.getFullYear() +
         "-" +
-        (today.getMonth() + 1) +
+        (today.getMonth() + 1).toString().padStart(2, "0") +
         "-" +
-        today.getDate() +
+        today.getDate().toString().padStart(2, "0") +
         " " +
-        today.getHours() +
+        today.getHours().toString().padStart(2, "0") +
         ":" +
-        today.getMinutes() +
+        today.getMinutes().toString().padStart(2, "0") +
         ":" +
-        today.getSeconds(),
+        today.getSeconds().toString().padStart(2, "0"),
       status: RECEIVED,
       items: cart,
       driver: "",
     });
 
     await order.save();
-    return res.redirect("/orders");
+    return res.redirect("/");
   }
 
   return res.redirect("/");

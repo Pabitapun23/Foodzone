@@ -1,35 +1,84 @@
+<script src="/js/index.js" defer></script>
 <main>
-  <form action="/add-order" method="post">
-    <div class="flex-row">
-      <label for="name">Name</label>
-      <input
-        type="text"
-        name="name"
-        id="name"
-        required
-        placeholder="Firstname Lastname"
-        autocomplete="off"
-      />
-    </div>
-    <div class="flex-row">
-      <label for="address">Address</label>
-      <input
-        type="text"
-        name="address"
-        id="address"
-        required
-        placeholder="Address"
-        autocomplete="off"
-      />
-    </div>
-    {{#each orders}}
-      <div class="flex-row">
-        <input type="text" value="{{this._id}}" name="item" class="hidden" />
-        <p>{{this.name}}</p>
-        x
-        <input type="number" name="quantity" min="0" max="20" value="0" />
+  <h1>Orders</h1>
+  <input type="text" placeholder="Enter customer name" id="customerName"/> <button id="search">🔎</button>
+  <div id="orders">
+    <div class="order-col">
+      <h2 class="black-white">RECEIVED</h2>
+      {{#if received}}
+      {{#each received}}
+      <div class="order-card">
+        <a href="#">
+          <h3>{{customer}}</h3>
+          <p>{{timestamp}}</p>
+          <ul>
+            {{#each items}}
+            <li>
+              <h4>{{quantity}}</h4>
+              <p>&nbsp;x {{item.name}}</p>
+              </p>
+            </li>
+            {{/each}}
+          </ul>
+        </a>
       </div>
-    {{/each}}
-    <button type="submit">SUBMIT ORDER</button>
-  </form>
+      <hr />
+      {{/each}}
+      {{else}}
+      <h3>NO RECORD</h3>
+      {{/if}}
+    </div>
+
+    <div class="order-col">
+      <h2 class="white-black">READY FOR DELIVERY</h2>
+      {{#if readyForDelivery}}
+      {{#each readyForDelivery}}
+      <div class="order-card">
+        <a href="#">
+          <h3>{{customer}}</h3>
+          <p>{{timestamp}}</p>
+          <ul>
+            {{#each items}}
+            <li>
+              <h4>{{quantity}}</h4>
+              <p>&nbsp;x {{item.name}}</p>
+              </p>
+            </li>
+            {{/each}}
+          </ul>
+        </a>
+      </div>
+      <hr />
+      {{/each}}
+      {{else}}
+      <h3>NO RECORD</h3>
+      {{/if}}
+    </div>
+
+    <div class="order-col">
+      <h2 class="orange-white">IN TRANSIT</h2>
+      {{#if inTransit}}
+      {{#each inTransit}}
+      <div class="order-card">
+        <a href="#">
+          <h3>{{customer}}</h3>
+          <p>{{timestamp}}</p>
+          <ul>
+            {{#each items}}
+            <li>
+              <h4>{{quantity}}</h4>
+              <p>&nbsp;x {{item.name}}</p>
+              </p>
+            </li>
+            {{/each}}
+          </ul>
+        </a>
+      </div>
+      <hr />
+      {{/each}}
+      {{else}}
+      <h3>NO RECORD</h3>
+      {{/if}}
+    </div>
+  </div>
 </main>
