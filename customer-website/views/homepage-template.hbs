@@ -19,11 +19,11 @@
   <section id="about-us-section">
     <h2>About Us</h2>
     <div id="about-us-container">
-        <img
-          src="/images/food-pics/about-us.jpg"
-          alt="about us img"
-          style="width: 40%; height: 400px;"
-        />
+      <img
+        src="/images/food-pics/about-us.jpg"
+        alt="about us img"
+        style="width: 40%; height: 400px;"
+      />
       <div id="about-us-detail">
         <p>Restaurant Location: <span>Toronto, Canada</span></p>
         <p>Days: <span>Monday to Sunday</span></p>
@@ -32,15 +32,65 @@
     </div>
   </section>
 
-  {{!-- Featured Menu Section --}}
+  {{! Featured Menu Section }}
   <section id="feature-menu-section">
     <h2>Our Featured Menu Items</h2>
-    <div></div>
+    <div id="featureCardContainer">
+      <div class="featureCard">
+        <img src="/images/food-pics/burger.jpg" alt="This is burger" style="width: 200px; height:200px;"/>
+        <h2 class="featureMenuItem">Burger</h2>
+      </div>
+      <div class="featureCard">
+        <img src="/images/food-pics/dumpling.jpg" alt="This is dumpling" style="width: 200px; height:200px;"/>
+        <h2 class="featureMenuItem">Dumpling</h2>
+      </div>
+      <div class="featureCard">
+        <img src="/images/food-pics/pizza.jpg" alt="This is pizza" style="width: 200px; height:200px;"/>
+        <h2 class="featureMenuItem">Pizza</h2>
+      </div>
+      <div class="featureCard">
+        <img src="/images/food-pics/salad.jpg" alt="This is salad" style="width: 200px; height:200px;"/>
+        <h2 class="featureMenuItem">Salad</h2>
+      </div>
+    </div>
   </section>
 
-  {{!-- Main Menu Section --}}
+  {{! Main Menu Section }}
   <section id="main-menu-section">
     <h2>Our Menu</h2>
-    <div class="foodCard"></div>
+    <div id="menuCardContainer">
+      <div class="menuCard">
+        <img src="/images/food-pics/burger.jpg" alt="This is burger" style="width:250px; height:250px;"/>
+        <div class="menuCardDetail">
+            <h3>Burger</h3>
+            <p>Price: <span>$10</span></p>
+            <a href="#" class="btn-add">Add</a>
+        </div>
+      </div>
+      <div class="menuCard">
+        <img src="/images/food-pics/dumpling.jpg" alt="This is dumpling" style="width:250px; height:250px;"/>
+        <div class="menuCardDetail">
+            <h3>Dumpling</h3>
+            <p>Price: <span>$8</span> </p>
+            <a href="#" class="btn-add">Add</a>
+        </div>
+      </div>
+      <div class="menuCard">
+        <img src="/images/food-pics/pizza.jpg" alt="This is pizza" style="width:250px; height:250px;"/>
+        <div class="menuCardDetail">
+            <h3>Pizza</h3>
+            <p>Price: <span>$15</span></p>
+            <a href="#" class="btn-add">Add</a>
+        </div>
+      </div>    
+      <div class="menuCard">
+        <img src="/images/food-pics/salad.jpg" alt="This is salad" style="width:250px; height:250px;"/>
+        <div class="menuCardDetail">
+            <h3>Sandwich</h3>
+            <p>Price: <span>$13</span></p>
+            <a href="#" class="btn-add">Add</a>
+        </div>
+      </div>
+    </div>
   </section>
 </main>
