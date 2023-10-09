@@ -368,6 +368,10 @@ app.post("/orders/update-status", async (req, res) => {
 
     console.log(updates);
     const result = await order.updateOne(updates);
+
+    if (status === DELIVERED) {
+      return res.redirect("/history");
+    }
     return res.redirect("/");
   } catch (err) {
     console.log(err);
@@ -421,7 +425,7 @@ app.post("/add-order", async (req, res) => {
       status: RECEIVED,
       items: cart,
       driver: request.driver,
-      imgFilename: ""
+      imgFilename: "",
     });
 
     if (request.driver !== "") {
