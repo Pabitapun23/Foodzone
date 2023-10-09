@@ -35,6 +35,7 @@ const itemSchema = new Schema({
   image: String,
   description: String,
   price: Number,
+  featured: Boolean,
 });
 
 const driverSchema = new Schema({
@@ -53,6 +54,7 @@ const orderSchema = new Schema({
   status: Number,
   items: [{ item: String, quantity: Number }],
   driver: String,
+  imgFilename: String,
 });
 
 const Order = mongoose.model("orders_collection", orderSchema);
@@ -66,41 +68,46 @@ const IN_TRANSIT = 2;
 const DELIVERED = 3;
 
 app.get("/", async (req, res) => {
-  const details = await Order.find().sort({ timestamp: 1 }).lean().exec();
   let received = [];
   let readyForDelivery = [];
   let inTransit = [];
 
-  for (currOrder of details) {
-    if (currOrder.status === DELIVERED) {
-      continue;
-    }
+  try {
+    const details = await Order.find().sort({ timestamp: 1 }).lean().exec();
 
-    let items = [];
-    for (currItem of currOrder.items) {
-      const itemDetails = await Item.findOne({ _id: currItem.item })
-        .lean()
-        .exec();
-      items.push({
-        item: itemDetails,
-        quantity: currItem.quantity.toString().padStart(2, "0"),
-      });
-    }
+    for (currOrder of details) {
+      if (currOrder.status === DELIVERED) {
+        continue;
+      }
 
-    // currOrder.timestamp = new Date(currOrder.timeStamp);
-    currOrder.items = items;
+      let items = [];
+      for (currItem of currOrder.items) {
+        const itemDetails = await Item.findOne({ _id: currItem.item })
+          .lean()
+          .exec();
+        items.push({
+          item: itemDetails,
+          quantity: currItem.quantity.toString().padStart(2, "0"),
+        });
+      }
 
-    switch (currOrder.status) {
-      case READY_FOR_DELIVERY:
-        readyForDelivery.push(currOrder);
-        break;
-      case IN_TRANSIT:
-        inTransit.push(currOrder);
-        break;
-      default:
-        received.push(currOrder);
-        break;
+      // currOrder.timestamp = new Date(currOrder.timeStamp);
+      currOrder.items = items;
+
+      switch (currOrder.status) {
+        case READY_FOR_DELIVERY:
+          readyForDelivery.push(currOrder);
+          break;
+        case IN_TRANSIT:
+          inTransit.push(currOrder);
+          break;
+        default:
+          received.push(currOrder);
+          break;
+      }
     }
+  } catch (err) {
+    console.log(err);
   }
 
   return res.render("index", {
@@ -112,129 +119,34 @@ app.get("/", async (req, res) => {
   });
 });
 
-app.get("/customers", async (req, res) => {
-  const details = await Order.find().sort({ timestamp: 1 }).lean().exec();
-  let response = {
-    received: [],
-    readyForDelivery: [],
-    inTransit: [],
-  };
-
-  for (currOrder of details) {
-    if (currOrder.status === DELIVERED) {
-      continue;
-    }
-
-    let items = [];
-    for (currItem of currOrder.items) {
-      const itemDetails = await Item.findOne({ _id: currItem.item })
-        .lean()
-        .exec();
-      items.push({
-        item: itemDetails,
-        quantity: currItem.quantity.toString().padStart(2, "0"),
-      });
-    }
-
-    // currOrder.timestamp = new Date(currOrder.timeStamp);
-    currOrder.items = items;
-
-    switch (currOrder.status) {
-      case READY_FOR_DELIVERY:
-        response.readyForDelivery.push(currOrder);
-        break;
-      case IN_TRANSIT:
-        response.inTransit.push(currOrder);
-        break;
-      default:
-        response.received.push(currOrder);
-        break;
-    }
-  }
-
-  return res.json(response);
-});
-
-app.get("/customers/:name", async (req, res) => {
-  const pattern = "(?i)" + req.params.name + "(?-i)";
-  const details = await Order.find({
-    customer: { $regex: pattern },
-  })
-    .sort({ timestamp: 1 })
-    .lean()
-    .exec();
-  let response = {
-    received: [],
-    readyForDelivery: [],
-    inTransit: [],
-  };
-
-  for (currOrder of details) {
-    if (currOrder.status === DELIVERED) {
-      continue;
-    }
-
-    let items = [];
-    for (currItem of currOrder.items) {
-      const itemDetails = await Item.findOne({ _id: currItem.item })
-        .lean()
-        .exec();
-      items.push({
-        item: itemDetails,
-        quantity: currItem.quantity.toString().padStart(2, "0"),
-      });
-    }
-
-    // currOrder.timestamp = new Date(currOrder.timeStamp);
-    currOrder.items = items;
-
-    switch (currOrder.status) {
-      case READY_FOR_DELIVERY:
-        response.readyForDelivery.push(currOrder);
-        break;
-      case IN_TRANSIT:
-        response.inTransit.push(currOrder);
-        break;
-      default:
-        response.received.push(currOrder);
-        break;
-    }
-  }
-
-  return res.json(response);
-});
-
-app.get("/orders/:id", (req, res) => {
-  return res.redirect("/");
-});
-
-app.post("/orders/update-status", async (req, res) => {
-  return res.redirect("/");
-});
-
 app.get("/history", async (req, res) => {
-  const details = await Order.find().sort({ timestamp: -1 }).lean().exec();
   let delivered = [];
 
-  for (currOrder of details) {
-    if (currOrder.status !== DELIVERED) {
-      continue;
-    }
+  try {
+    const details = await Order.find().sort({ timestamp: -1 }).lean().exec();
 
-    let items = [];
-    for (currItem of currOrder.items) {
-      const itemDetails = await Item.findOne({ _id: currItem.item })
-        .lean()
-        .exec();
-      items.push({
-        item: itemDetails,
-        quantity: currItem.quantity.toString().padStart(2, "0"),
-      });
-    }
+    for (currOrder of details) {
+      if (currOrder.status !== DELIVERED) {
+        continue;
+      }
 
-    // currOrder.timestamp = new Date(currOrder.timeStamp);
-    currOrder.items = items;
-    delivered.push(currOrder);
+      let items = [];
+      for (currItem of currOrder.items) {
+        const itemDetails = await Item.findOne({ _id: currItem.item })
+          .lean()
+          .exec();
+        items.push({
+          item: itemDetails,
+          quantity: currItem.quantity.toString().padStart(2, "0"),
+        });
+      }
+
+      // currOrder.timestamp = new Date(currOrder.timeStamp);
+      currOrder.items = items;
+      delivered.push(currOrder);
+    }
+  } catch (err) {
+    console.log(err);
   }
 
   return res.render("history", {
@@ -244,13 +156,235 @@ app.get("/history", async (req, res) => {
   });
 });
 
-app.get("/order", async (req, res) => {
+// #region SEARCH CUSTOMER
+const ASC = 1;
+const DESC = -1;
+
+app.get("/customers/:type", async (req, res) => {
+  let response = {
+    received: [],
+    readyForDelivery: [],
+    inTransit: [],
+    delivered: [],
+  };
+  let sort = ASC;
+
+  if (req.params.type === "desc") {
+    sort = DESC;
+  }
+
+  try {
+    const details = await Order.find().sort({ timestamp: sort }).lean().exec();
+
+    for (currOrder of details) {
+      let items = [];
+      for (currItem of currOrder.items) {
+        const itemDetails = await Item.findOne({ _id: currItem.item })
+          .lean()
+          .exec();
+        items.push({
+          item: itemDetails,
+          quantity: currItem.quantity.toString().padStart(2, "0"),
+        });
+      }
+
+      // currOrder.timestamp = new Date(currOrder.timeStamp);
+      currOrder.items = items;
+
+      switch (currOrder.status) {
+        case RECEIVED:
+          response.received.push(currOrder);
+          break;
+        case IN_TRANSIT:
+          response.inTransit.push(currOrder);
+          break;
+        case READY_FOR_DELIVERY:
+          response.readyForDelivery.push(currOrder);
+          break;
+        default:
+          response.delivered.push(currOrder);
+          break;
+      }
+    }
+  } catch (err) {
+    console.log(err);
+  }
+
+  return res.json(response);
+});
+
+app.get("/customers/:type/:name", async (req, res) => {
+  const pattern = "(?i)" + req.params.name + "(?-i)";
+  let sort = ASC;
+  let response = {
+    received: [],
+    readyForDelivery: [],
+    inTransit: [],
+    delivered: [],
+  };
+
+  if (req.params.type === "desc") {
+    sort = DESC;
+  }
+
+  try {
+    const details = await Order.find({
+      customer: { $regex: pattern },
+    })
+      .sort({ timestamp: sort })
+      .lean()
+      .exec();
+
+    for (currOrder of details) {
+      let items = [];
+      for (currItem of currOrder.items) {
+        const itemDetails = await Item.findOne({ _id: currItem.item })
+          .lean()
+          .exec();
+        items.push({
+          item: itemDetails,
+          quantity: currItem.quantity.toString().padStart(2, "0"),
+        });
+      }
+
+      currOrder.items = items;
+
+      switch (currOrder.status) {
+        case RECEIVED:
+          response.received.push(currOrder);
+          break;
+        case IN_TRANSIT:
+          response.inTransit.push(currOrder);
+          break;
+        case READY_FOR_DELIVERY:
+          response.readyForDelivery.push(currOrder);
+          break;
+        default:
+          response.delivered.push(currOrder);
+          break;
+      }
+    }
+  } catch (err) {
+    console.log(err);
+  }
+
+  return res.json(response);
+});
+// #endregion SEARCH CUSTOMER
+
+app.get("/orders/:id", async (req, res) => {
+  const statusButtonReference = [0, 0, 0, 1];
+  let items = [];
+  let total = 0;
+
+  try {
+    const details = await Order.findOne({ _id: req.params.id }).lean().exec();
+    switch (details.status) {
+      case RECEIVED:
+        details.status = "RECEIVED";
+        statusButtonReference[1] = 1;
+        break;
+      case READY_FOR_DELIVERY:
+        details.status = "READY FOR DELIVERY";
+        statusButtonReference[0] = 1;
+        break;
+      case IN_TRANSIT:
+        details.status = "IN TRANSIT";
+        statusButtonReference[1] = 1;
+        break;
+      default:
+        details.status = "DELIVERED";
+        statusButtonReference[3] = 0;
+        break;
+    }
+
+    for (currItem of details.items) {
+      const itemDetails = await Item.findOne({ _id: currItem.item })
+        .lean()
+        .exec();
+      items.push({
+        item: itemDetails,
+        quantity: currItem.quantity.toString().padStart(2, "0"),
+        total: (currItem.quantity * itemDetails.price).toFixed(2),
+      });
+      total += currItem.quantity * itemDetails.price;
+    }
+
+    if (details.driver !== "") {
+      const driver = await Driver.findOne({ _id: details.driver })
+        .lean()
+        .exec();
+
+      return res.render("order", {
+        layout: "header-footer",
+        page: "Order",
+        details: details,
+        items: items,
+        driver: driver,
+        total: total.toFixed(2),
+        statusButtonReference: statusButtonReference,
+      });
+    }
+
+    return res.render("order", {
+      layout: "header-footer",
+      page: "Order",
+      details: details,
+      items: items,
+      total: total.toFixed(2),
+      statusButtonReference: statusButtonReference,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.redirect("/");
+  }
+});
+
+app.post("/orders/update-status", async (req, res) => {
+  console.log(req.body);
+  const itemId = req.body.item;
+  const status = parseInt(req.body.status);
+  let updates;
+
+  try {
+    const order = await Order.findOne({ _id: itemId });
+    if (order === null) {
+      return res.redirect("/");
+    }
+
+    switch (status) {
+      case READY_FOR_DELIVERY:
+        updates = { status: status, driver: "" };
+        break;
+      case IN_TRANSIT:
+        updates = { status: status, imgFilename: "" };
+        break;
+      default:
+        updates = { status: status };
+        break;
+    }
+
+    console.log(updates);
+    const result = await order.updateOne(updates);
+
+    if (status === DELIVERED) {
+      return res.redirect("/history");
+    }
+    return res.redirect("/");
+  } catch (err) {
+    console.log(err);
+    return res.redirect("/");
+  }
+});
+
+// #region ORDER FORM
+app.get("/order-form", async (req, res) => {
   const orders = await Item.find().lean().exec();
   const drivers = await Driver.find().lean().exec();
 
-  res.render("order", {
+  res.render("order-form", {
     layout: "header-footer",
-    page: "Order",
+    page: "Order Form",
     orders: orders,
     drivers: drivers,
   });
@@ -288,8 +422,13 @@ app.post("/add-order", async (req, res) => {
         today.getSeconds().toString().padStart(2, "0"),
       status: RECEIVED,
       items: cart,
-      driver: "",
+      driver: request.driver,
+      imgFilename: "",
     });
+
+    if (request.driver !== "") {
+      order.status = IN_TRANSIT;
+    }
 
     await order.save();
     return res.redirect("/");
@@ -297,6 +436,7 @@ app.post("/add-order", async (req, res) => {
 
   return res.redirect("/");
 });
+// #endregion ORDER FORM
 
 // #region BIOLERPLATE 2
 const onHttpStart = () => {

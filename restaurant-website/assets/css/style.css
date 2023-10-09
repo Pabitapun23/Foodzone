@@ -35,6 +35,10 @@ hr {
   border: 1px solid black;
   color: black;
 }
+
+.hidden {
+  display: none;
+}
 /* #endregion GENERAL */
 
 /* #region HEADER */
@@ -103,6 +107,24 @@ footer {
 }
 /* #endregion FOOTER */
 
+/* #region HOME, HISTORY */
+.search-bar {
+  padding-bottom: 10px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.search-bar input {
+  padding: 5px;
+  width: 200px;
+}
+
+.search-bar button {
+  width: 50px;
+  padding: 5px;
+}
+
 #orders {
   display: flex;
   flex-wrap: wrap;
@@ -115,23 +137,6 @@ footer {
 
 .order-col h3 {
   margin: 15px 10px;
-}
-
-.order-card ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 10px 0 0 10px;
-}
-
-.order-card ul li {
-  display: flex;
-  align-items: center;
-  margin: 0;
-}
-
-.order-card ul li p,
-h4 {
-  margin: 0;
 }
 
 .order-card {
@@ -160,3 +165,62 @@ h4 {
 .order-card p {
   margin: 0;
 }
+
+.order-card ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 10px 0 0 10px;
+}
+
+.order-card ul li {
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+.order-card ul li p,
+.order-card ul li h4 {
+  margin: 0;
+}
+/* #endregion HOME, HISTORY */
+
+/* #region ORDER */
+
+#order-details h4 {
+  margin-bottom: 0;
+}
+
+#order-details h3 {
+  margin: 0;
+}
+
+#order-details button {
+  padding: 10px;
+  border: 0;
+}
+
+#order-details button:hover {
+  padding: 10px;
+  border: 0;
+  background-color: #dd571c;
+  color: white;
+}
+
+#order-details p {
+  margin: 0;
+}
+
+#order-details div {
+  margin-left: 15px;
+}
+
+#order-table {
+  margin-left: 15px;
+}
+
+#order-table p,
+#order-table img {
+  margin-top: 0;
+  margin-left: 15px;
+}
+/* #endregion ORDER */
