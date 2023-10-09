@@ -6,10 +6,16 @@
     <title>Driver</title>
 </head>
 <body>
+    <div style="display:flex; flex-direction:row; justify-content:center; align-items:center; gap:20px">
     <h1>Welcome to driver dashboard</h1>
-    <a href="/logout">Log out</a>
-    <div>
-        {{body}}
     </div>
+    <div style="display: flex; flex-direction:row; justify-content:center; gap:40px">
+        <a href="/dashboard">Home</a>
+        <a href="/order">Your delivery</a>
+        <a href="/record">Record</a>
+        <a href="/logout">Log out</a>
+    </div>
+    {{{body}}}
+
 </body>
 </html>

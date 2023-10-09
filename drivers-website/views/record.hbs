@@ -2,7 +2,7 @@
 <body>
     {{#if orderList}}
         {{#each orderList}}
-            <form action="/order" method="post">
+            <form action="/delivered" method="post" enctype="multipart/form-data">
                 <div style="display: flex; flex-direction: row; border: 1px solid #c06d6d; margin-bottom: 20px; padding: 10px;">
                         <div style="display: flex; flex-direction: column; width: 80%;">
                             <input type="hidden" name="orderId" value="{{id}}"/>
@@ -27,16 +27,26 @@
                                     <li>Item: {{name}}, Quantity: {{quantity}}</li>
                                 {{/each}}
                             </ul>
+                            {{#if imgFilename}}
+                                <p style="color:#c06d6d">You have provided the evidence. Thank you.</p>
+                            {{/if}}
+                            <div style="display:flex; flex-direction: column; gap: 10px">
+                                <label for="image">Upload delivery evidence:</label>
+                                <input type="file" name="evidenceImage" required="true">
+                                {{#if imgFilename}}
+                                <img src="{{imgFilename}}" width="100px" height="100px">
+                                {{/if}}
+                            </div>
                         </div>
                         <div style="display: flex; flex-direction: column; width: 20%;justify-content: center;">
-                            <button type="submit" style="height:20%">Take Order</button>
+                            <button type="submit" style="height:20%">Re-submit</button>
                         </div>
                 </div>
             </form>
         {{/each}}
     {{else}}
         <div style="display:flex; flex-direction:column; align-items:center">
-            <h2>No orders available now, please refresh later to see the latest orders.</h2>
+            <h2>You didn't take any orders yet. Please take orders in the home page.</h2>
         </div>
     {{/if}}
 </body>
