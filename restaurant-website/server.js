@@ -273,7 +273,7 @@ app.get("/customers/:type/:name", async (req, res) => {
 // #endregion SEARCH CUSTOMER
 
 app.get("/orders/:id", async (req, res) => {
-  const statusButtonReference = [0, 0, 0, 0];
+  const statusButtonReference = [0, 0, 0, 1];
   let items = [];
   let total = 0;
 
@@ -291,12 +291,10 @@ app.get("/orders/:id", async (req, res) => {
       case IN_TRANSIT:
         details.status = "IN TRANSIT";
         statusButtonReference[1] = 1;
-        statusButtonReference[3] = 1;
         break;
       default:
         details.status = "DELIVERED";
-        statusButtonReference[1] = 1;
-        statusButtonReference[2] = 1;
+        statusButtonReference[3] = 0;
         break;
     }
 
