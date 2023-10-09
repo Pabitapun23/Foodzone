@@ -421,6 +421,7 @@ app.post("/add-order", async (req, res) => {
       status: RECEIVED,
       items: cart,
       driver: request.driver,
+      imgFilename: ""
     });
 
     if (request.driver !== "") {
