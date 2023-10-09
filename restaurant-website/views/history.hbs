@@ -1,17 +1,26 @@
+<script src="/js/history.js" defer></script>
 <main>
   <h1>History</h1>
-  {{#if delivered}}
-    {{#each delivered}}
-      <div class="order-card">
-        <a href="#">
-          <h3>Order #{{_id}}</h3>
-          <p>{{customer}}</p>
-          <p>{{timestamp}}</p>
-        </a>
-      </div>
-      <hr />
-    {{/each}}
-  {{else}}
-    <h3>NO RECORD</h3>
-  {{/if}}
+  <div class="search-bar">
+    <label for="customerName">Search Customer</label>
+    <input type="text" placeholder="Enter customer name" id="customerName" />
+    <button id="searchCustomer">🔎</button>
+  </div>
+
+  <div id="deliveredList">
+    {{#if delivered}}
+      {{#each delivered}}
+        <div class="order-card">
+          <a href="/orders/{{_id}}">
+            <h3 class="no-margin">Order #{{_id}}</h3>
+            <p>{{customer}}</p>
+            <p>{{timestamp}}</p>
+          </a>
+        </div>
+        <hr class="no-margin" />
+      {{/each}}
+    {{else}}
+      <h3>NO RECORD</h3>
+    {{/if}}
+  </div>
 </main>

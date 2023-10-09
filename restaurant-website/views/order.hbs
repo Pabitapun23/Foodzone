@@ -1,35 +1,63 @@
 <main>
-	<form action="/add-order" method="post">
-		<div class="flex-row">
-			<label for="name">Name</label>
-			<input
-				type="text"
-				name="name"
-				id="name"
-				required
-				placeholder="Firstname Lastname"
-				autocomplete="off"
-			/>
-		</div>
-		<div class="flex-row">
-			<label for="address">Address</label>
-			<input
-				type="text"
-				name="address"
-				id="address"
-				required
-				placeholder="Address"
-				autocomplete="off"
-			/>
-		</div>
-		{{#each orders}}
-			<div class="flex-row">
-				<input type="text" value="{{this._id}}" name="item" class="hidden" />
-				<p>{{this.name}}</p>
-				x
-				<input type="number" name="quantity" min="0" max="20" value="0" />
-			</div>
-		{{/each}}
-		<button type="submit">SUBMIT ORDER</button>
-	</form>
+    <h1>{{details.status}}</h1>
+
+    <div id="order-details">
+        <h3>Order #{{details._id}}</h3>
+        <p class="no-margin">{{details.timestamp}}</p>
+
+        <h4>Customer</h4>
+        <div>
+            <p>{{details.customer}}</p>
+            <p>Address: {{details.address}}</p>
+        </div>
+
+        <h4>Driver</h4>
+        <div>
+            {{#if driver}}
+            <p>{{driver.name}}</p>
+            {{else}}
+            <p>Waiting for a driver to accept</p>
+            {{/if}}
+        </div>
+
+        <h4>Order</h4>
+        <table id="order-table">
+            {{#each items}}
+            <tr>
+                <td>{{quantity}} x</td>
+                <td>{{item.name}}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@ ${{item.price}}</td>
+                <td><b>${{total}}</b></td>
+            </tr>
+            {{/each}}
+            <tr>
+                <td><b>TOTAL</b></td>
+                <td></td>
+                <td><b>${{total}}</b></td>
+            </tr>
+        </table>
+
+        <h4>Update Delivery Status</h4>
+        <div>
+            <form action="/orders/update-status" method="post">
+                <input type="text" value="{{details._id}}" name="item" class="hidden" />
+                {{#if statusButtonReference.[0]}}
+                <button type="submit" value="0" name="status" class="black-white">RECEIVED</button>
+                {{/if}}
+                {{#if statusButtonReference.[1]}}
+                <button type="submit" value="1" name="status" class="black-white">READY
+                    FOR DELIVERY</button>
+                {{/if}}
+                {{#if statusButtonReference.[2]}}
+                <button type="submit" value="2" name="status" class="black-white">IN TRANSIT</button>
+                {{/if}}
+                {{#if statusButtonReference.[3]}}
+                <button type="submit" value="3" name="status" class="black-white">DELIVERED</button>
+                {{/if}}
+            </form>
+        </div>
+    </div>
 </main>

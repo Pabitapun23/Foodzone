@@ -1,15 +1,21 @@
 <script src="/js/index.js" defer></script>
 <main>
   <h1>Orders</h1>
-  <input type="text" placeholder="Enter customer name" id="customerName"/> <button id="search">🔎</button>
+  <div class="search-bar">
+    <label for="customerName">Search Customer</label>
+    <input type="text" placeholder="Enter customer name" id="customerName" />
+    <button id="searchCustomer">🔎</button>
+  </div>
+
   <div id="orders">
-    <div class="order-col">
+    <div class="order-col" id="receivedList">
       <h2 class="black-white">RECEIVED</h2>
       {{#if received}}
       {{#each received}}
       <div class="order-card">
-        <a href="#">
+        <a href="/orders/{{_id}}">
           <h3>{{customer}}</h3>
+          <p>Order #{{_id}}</p>
           <p>{{timestamp}}</p>
           <ul>
             {{#each items}}
@@ -29,13 +35,14 @@
       {{/if}}
     </div>
 
-    <div class="order-col">
+    <div class="order-col" id="readyForDeliveryList">
       <h2 class="white-black">READY FOR DELIVERY</h2>
       {{#if readyForDelivery}}
       {{#each readyForDelivery}}
       <div class="order-card">
-        <a href="#">
+        <a href="/orders/{{_id}}">
           <h3>{{customer}}</h3>
+          <p>Order #{{_id}}</p>
           <p>{{timestamp}}</p>
           <ul>
             {{#each items}}
@@ -55,13 +62,14 @@
       {{/if}}
     </div>
 
-    <div class="order-col">
+    <div class="order-col" id="inTransitList">
       <h2 class="orange-white">IN TRANSIT</h2>
       {{#if inTransit}}
       {{#each inTransit}}
       <div class="order-card">
-        <a href="#">
+        <a href="/orders/{{_id}}">
           <h3>{{customer}}</h3>
+          <p>Order #{{_id}}</p>
           <p>{{timestamp}}</p>
           <ul>
             {{#each items}}
