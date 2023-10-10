@@ -20,7 +20,7 @@ app.use(session({
 app.engine('hbs', exphbs.engine({ extname: '.hbs' }));
 app.set('view engine', 'hbs');
 app.use(express.urlencoded({ extended: true }))
-app.use(express.static("./public/deliveryEvidence"))
+app.use(express.static("public"))
 const HTTP_PORT = process.env.PORT || 3000
 
 /******************* Database setup ********************/
@@ -173,7 +173,7 @@ app.get("/dashboard",sessionQuery, async (req, res) => {
             totalItems: orderList[i].items.length,
         })
     }
-    return res.render("dashboard.hbs",{layout: "main.hbs", orderList: finalOrderList})
+    return res.render("dashboard.hbs",{layout: "header-footer.hbs", orderList: finalOrderList})
 })
 
 app.get("/record",sessionQuery, async(req,res)=>{
@@ -201,7 +201,7 @@ app.get("/record",sessionQuery, async(req,res)=>{
                 imgFilename: orderList[i].imgFilename
             })
         }
-        return res.render("record.hbs",{layout: "main.hbs", orderList: finalOrderList})
+        return res.render("record.hbs",{layout: "header-footer.hbs", orderList: finalOrderList})
     }catch(error){
         console.log(error)
     }
@@ -231,7 +231,7 @@ app.get("/order",sessionQuery, async(req,res)=>{
                 imgFilename: orderList[i].imgFilename
             })
         }
-        return res.render("driverOrder.hbs",{layout: "main.hbs", orderList: finalOrderList})
+        return res.render("driverOrder.hbs",{layout: "header-footer.hbs", orderList: finalOrderList})
     }catch(error){
         console.log(error)
     }
