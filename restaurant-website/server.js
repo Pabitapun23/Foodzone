@@ -341,7 +341,6 @@ app.get("/orders/:id", async (req, res) => {
 });
 
 app.post("/orders/update-status", async (req, res) => {
-  console.log(req.body);
   const itemId = req.body.item;
   const status = parseInt(req.body.status);
   let updates;
@@ -364,7 +363,6 @@ app.post("/orders/update-status", async (req, res) => {
         break;
     }
 
-    console.log(updates);
     const result = await order.updateOne(updates);
 
     if (status === DELIVERED) {
