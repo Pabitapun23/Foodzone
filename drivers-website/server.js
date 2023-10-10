@@ -87,17 +87,17 @@ app.get("/",sessionQuery,(req, res) => {
 })
 
 app.get("/login", (req, res) => {
-    return res.render("login.hbs",{layout: false})
+    return res.render("login.hbs",{layout: "header-footer.hbs", login: true})
 })
 
 app.post("/login", async(req, res) => {
    try{ 
     const driverFromDB = await driverAccount.findOne({username: req.body.username})
     if(!driverFromDB){
-        return res.render("login.hbs",{layout: false, error: "User does not exist"})
+        return res.render("login.hbs",{layout: "header-footer.hbs", error: "User does not exist"})
     }
     if(driverFromDB.password !== req.body.password){
-        return res.render("login.hbs",{layout: false, error: "Password is incorrect"})
+        return res.render("login.hbs",{layout: "header-footer.hbs", error: "Password is incorrect"})
     }
     //set session
     req.session.driverInfo = {
@@ -117,14 +117,14 @@ app.post("/login", async(req, res) => {
 })
 
 app.get("/register",(req,res)=>{
-    return res.render("register.hbs",{layout: false})
+    return res.render("register.hbs",{layout: "header-footer.hbs"})
 })
 
 app.post("/register",async (req,res)=>{
     try{
         const driver = await driverAccount.findOne({username: req.body.username})
         if(driver){
-            return res.render("register.hbs",{layout: false, error: "Username already exists"})
+            return res.render("register.hbs",{layout: "header-footer.hbs", error: "Username already exists"})
         }
         const newDriver = new driverAccount({
             username: req.body.username,
