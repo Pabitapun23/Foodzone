@@ -94,10 +94,10 @@ app.post("/login", async(req, res) => {
    try{ 
     const driverFromDB = await driverAccount.findOne({username: req.body.username})
     if(!driverFromDB){
-        return res.render("login.hbs",{layout: "header-footer.hbs", error: "User does not exist"})
+        return res.render("login.hbs",{layout: "header-footer.hbs", error: "User does not exist", notShowTabs: true})
     }
     if(driverFromDB.password !== req.body.password){
-        return res.render("login.hbs",{layout: "header-footer.hbs", error: "Password is incorrect"})
+        return res.render("login.hbs",{layout: "header-footer.hbs", error: "Password is incorrect", notShowTabs: true})
     }
     //set session
     req.session.driverInfo = {
