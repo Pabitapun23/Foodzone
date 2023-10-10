@@ -377,6 +377,10 @@ app.post("/orders/update-status", async (req, res) => {
   }
 });
 
+app.get("/get-image/:file", (req, res) => {
+  return res.sendFile(path.join(__dirname, `../drivers-website/public/deliveryEvidence/${req.params.file}`));
+})
+
 // #region ORDER FORM
 app.get("/order-form", async (req, res) => {
   const orders = await Item.find().lean().exec();

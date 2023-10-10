@@ -24,7 +24,7 @@
         {{#if details.imgFilename}}
         <h4>Proof of Delivery</h4>
         <div>
-            <img src="" alt="Proof of Delivery" id="proof-of-delivery">
+            <img src="/get-image/{{details.imgFilename}}" alt="Proof of Delivery" id="proof-of-delivery">
         </div>
         {{/if}}
 
@@ -63,7 +63,7 @@
                 {{#if statusButtonReference.[2]}}
                 <button type="submit" value="2" name="status" class="black-white">IN TRANSIT</button>
                 {{/if}}
-                
+
                 {{!-- <button type="submit" value="3" name="status" class="black-white">DELIVERED</button> --}}
             </form>
         </div>
