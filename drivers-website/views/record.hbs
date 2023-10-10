@@ -2,7 +2,7 @@
 <body>
     {{#if orderList}}
         {{#each orderList}}
-            <form action="/delivered" method="post" enctype="multipart/form-data">
+            <form action="/resubmit" method="post" enctype="multipart/form-data">
                 <div style="display: flex; flex-direction: row; border: 1px solid #c06d6d; margin-bottom: 20px; padding: 10px;">
                         <div style="display: flex; flex-direction: column; width: 80%;">
                             <input type="hidden" name="orderId" value="{{id}}"/>
@@ -33,13 +33,11 @@
                             </ul>
                             {{#if imgFilename}}
                                 <p style="color:#c06d6d">You have provided the evidence. Thank you.</p>
+                                <img src="deliveryEvidence/{{imgFilename}}" width="100px" height="100px">
                             {{/if}}
                             <div style="display:flex; flex-direction: column; gap: 10px">
-                                <label for="image">Upload delivery evidence:</label>
+                                <label for="image">Upload another new delivery evidence:</label>
                                 <input type="file" name="evidenceImage" required="true">
-                                {{#if imgFilename}}
-                                <img src="deliveryEvidence/{{imgFilename}}" width="100px" height="100px">
-                                {{/if}}
                             </div>
                         </div>
                         <div style="display: flex; flex-direction: column; width: 20%;justify-content: center;">

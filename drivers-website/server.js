@@ -260,6 +260,18 @@ app.post("/delivered",sessionQuery,upload.single("evidenceImage"), async(req,res
     }
 })
 
+app.post("/resubmit",sessionQuery,upload.single("evidenceImage"), async(req,res)=>{
+    try{
+        const updateOrderParams = {
+            imgFilename: req.file.filename,
+        }
+        await order.updateOne({_id: req.body.orderId},{$set: updateOrderParams});
+        res.redirect("/record")
+    }catch(error){
+        console.log(error)
+    }
+})
+
 app.listen(HTTP_PORT, () => {
     console.log("Server is running on port 3000")
 })
