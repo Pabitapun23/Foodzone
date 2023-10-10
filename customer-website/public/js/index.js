@@ -3,8 +3,13 @@
 const getDataFromAPI = async () => {
   //get orderid from input field
   const orderIdFromUI = document.getElementById("orderId").value;
-  try {
-    if (orderIdFromUI !== undefined) {
+
+  //Reset error innerHTML
+  document.getElementById("errMsgCheckStatus").innerHTML = "";
+  document.getElementById("statusContainer").innerHTML = "";
+
+  try {  
+    if (orderIdFromUI.length > 0) {
       //Background task
       const response = await fetch(
         `http://localhost:8080/order-item-status/${orderIdFromUI}`,
@@ -41,8 +46,14 @@ const getDataFromAPI = async () => {
         "statusContainer"
       ).innerHTML = `<section id="statusCard">
             <p>Order ID: <span>${responseJSON._id}</span></p>
-            <p>Status: <span>${getReadableOrderStatus(responseJSON.status)}</span></p>
+            <p>Status: <span>${getReadableOrderStatus(
+              responseJSON.status
+            )}</span></p>
           </section>`;
+    } else {
+      document.getElementById(
+        "errMsgCheckStatus"
+      ).innerHTML = `<p>Error: Enter order id</p>`;
     }
   } catch (err) {
     console.log(`Unable to get the data from API due to error : ${err}`);
@@ -54,21 +65,21 @@ const getDataFromAPI = async () => {
   }
 };
 
+// creating function for getting readable order status since there are only numbers in db
 const getReadableOrderStatus = (status) => {
-    console.log(`${status}`);
+  console.log(`${status}`);
 
-    if (status === 0) {
-        return "RECEIVED";
-    } else if (status === 1) {
-        return "READY FOR DELIVERY";
-    } else if (status === 2) {
-        return "IN TRANSIT";
-    } else if (status === 3) {
-        return "DELIVERED";
-    } else {
-        return "";
-    }
-    
-}
+  if (status === 0) {
+    return "RECEIVED";
+  } else if (status === 1) {
+    return "READY FOR DELIVERY";
+  } else if (status === 2) {
+    return "IN TRANSIT";
+  } else if (status === 3) {
+    return "DELIVERED";
+  } else {
+    return "";
+  }
+};
 
 document.getElementById("btn-check").addEventListener("click", getDataFromAPI);
