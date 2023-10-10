@@ -177,6 +177,7 @@ h2 {
 #menuCardContainer {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
   gap: 50px;
   margin: 10px 30px 0 30px;
   padding: 20px 50px 50px 50px;
@@ -201,10 +202,15 @@ h2 {
   margin: 5px auto 0 auto;
 }
 
-.menuCardDetail p {
+.menuCardDetail h4 {
   margin: 5px 0 0 0;
   text-align: right;
-  padding: 10px 0 10px 10px;
+  padding: 5px;
+}
+
+.menuCardDetail p {
+  margin: 0;
+  padding: 0 0 20px 0;
 }
 
 .menuCardDetail span {
@@ -237,7 +243,7 @@ h1 {
   margin: 40px auto;
 }
 
-form {
+.form {
   border: 1px solid #ccc;
   border-radius: 8px;
   background-color: #efebeb;

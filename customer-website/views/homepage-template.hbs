@@ -11,7 +11,7 @@
     <div id="main-banner-info">
       <h1>Food Zone</h1>
       <p>Order your best food anytime, anywhere!</p>
-      <a href="/order-form" id="btn-order-now">Order Now</a>
+      <a href="/add-order" id="btn-order-now">Order Now</a>
     </div>
   </section>
 
@@ -36,22 +36,21 @@
   <section id="feature-menu-section">
     <h2>Our Featured Menu Items</h2>
     <div id="featureCardContainer">
-      <div class="featureCard">
-        <img src="/images/food-pics/burger.jpg" alt="This is burger" style="width: 200px; height:200px;"/>
-        <h2 class="featureMenuItem">Burger</h2>
-      </div>
-      <div class="featureCard">
-        <img src="/images/food-pics/dumpling.jpg" alt="This is dumpling" style="width: 200px; height:200px;"/>
-        <h2 class="featureMenuItem">Dumpling</h2>
-      </div>
-      <div class="featureCard">
-        <img src="/images/food-pics/pizza.jpg" alt="This is pizza" style="width: 200px; height:200px;"/>
-        <h2 class="featureMenuItem">Pizza</h2>
-      </div>
-      <div class="featureCard">
-        <img src="/images/food-pics/salad.jpg" alt="This is salad" style="width: 200px; height:200px;"/>
-        <h2 class="featureMenuItem">Salad</h2>
-      </div>
+
+      {{! Retrieving the featured menu items from db and showing them in homepage template }}
+      {{! menu items will be featured if it's "featured: true" }}
+      {{#each menuItem}}
+        {{#if this.featured}}
+          <div class="featureCard">
+            <img
+              src="/images/food-pics/{{this.image}}"
+              alt="This is {{this.name}}"
+              style="width: 200px; height:200px;"
+            />
+            <h2 class="featureMenuItem">{{this.name}}</h2>
+          </div>
+        {{/if}}
+      {{/each}}
     </div>
   </section>
 
@@ -59,38 +58,23 @@
   <section id="main-menu-section">
     <h2>Our Menu</h2>
     <div id="menuCardContainer">
-      <div class="menuCard">
-        <img src="/images/food-pics/burger.jpg" alt="This is burger" style="width:250px; height:250px;"/>
-        <div class="menuCardDetail">
-            <h3>Burger</h3>
-            <p>Price: <span>$10</span></p>
-            <a href="#" class="btn-add">Add</a>
+      {{! Retrieving the menu items from db and showing them in homepage template }}
+      {{! Looping menu items on menu card }}
+      {{#each menuItem}}
+        <div class="menuCard">
+          <img
+            src="/images/food-pics/{{this.image}}"
+            alt="This is {{this.name}}"
+            style="width:250px; height:250px;"
+          />
+          <div class="menuCardDetail">
+            <h3>{{this.name}}</h3>
+            <h4>Price: <span>$ {{this.price}}</span></h4>
+            <p>{{this.description}}</p>
+            <a href="/add-order/{{this._id}}" class="btn-add">Add</a>
+          </div>
         </div>
-      </div>
-      <div class="menuCard">
-        <img src="/images/food-pics/dumpling.jpg" alt="This is dumpling" style="width:250px; height:250px;"/>
-        <div class="menuCardDetail">
-            <h3>Dumpling</h3>
-            <p>Price: <span>$8</span> </p>
-            <a href="#" class="btn-add">Add</a>
-        </div>
-      </div>
-      <div class="menuCard">
-        <img src="/images/food-pics/pizza.jpg" alt="This is pizza" style="width:250px; height:250px;"/>
-        <div class="menuCardDetail">
-            <h3>Pizza</h3>
-            <p>Price: <span>$15</span></p>
-            <a href="#" class="btn-add">Add</a>
-        </div>
-      </div>    
-      <div class="menuCard">
-        <img src="/images/food-pics/salad.jpg" alt="This is salad" style="width:250px; height:250px;"/>
-        <div class="menuCardDetail">
-            <h3>Sandwich</h3>
-            <p>Price: <span>$13</span></p>
-            <a href="#" class="btn-add">Add</a>
-        </div>
-      </div>
+      {{/each}}
     </div>
   </section>
 </main>

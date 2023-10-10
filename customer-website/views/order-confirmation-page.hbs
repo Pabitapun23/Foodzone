@@ -1,0 +1,18 @@
+<main>
+  <h5 style="color: green;">Your Order is placed Successfully!</h5>
+
+  <section class="form">
+    <h3>Your Receipt</h3>
+    <p>Name: {{orderReceiptDetails.customer}}</p>
+    <p>Address: {{orderReceiptDetails.address}}</p>
+    <p>Ordered Items: </p>
+    {{#each orderedItems}}
+     <div class="orderItemNames">
+        <p>Name: {{this.name}}</p>
+      </div>
+    {{/each}}
+    
+    <p>Total Amount: ${{orderTotal}}</p>
+    <p>Order Confirmation Number: {{orderReceiptDetails._id}}</p>
+  </section>
+</main>
