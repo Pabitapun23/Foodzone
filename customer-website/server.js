@@ -82,30 +82,23 @@ app.get("/", async (req, res) => {
 });
 
 // Endpoint for order form page
+///add-order/:itemId? - here ? means itemId is optional
 app.get("/add-order/:itemId?", async (req, res) => {
-  try {
-    //Getting items from db
-    const itemFromDB = await Item.find().lean().exec();
-    let items = [];
-    //looping through item lists from db
-    for (let item of itemFromDB) {
-      // item._id.toString() - converts item's id to string
-      if (item._id.toString() === req.params.itemId) {
-        item.checked = true;
-      }
-      items.push(item);
+  //Getting items from db
+  const itemFromDB = await Item.find().lean().exec();
+  let items = [];
+  //looping through item lists from db
+  for (let item of itemFromDB) {
+    // item._id.toString() - converts item's id to string
+    if (item._id.toString() === req.params.itemId) {
+      item.checked = true;
     }
-    return res.render("order-form-page", {
-      layout: "my-layouts",
-      menuItem: items,
-    });
-  } catch (err) {
-    console.log(err);
-    return res.render("order-form-page", {
-      layout: "my-layouts",
-      errMsg: "ERROR: Order cannot be placed!",
-    });
+    items.push(item);
   }
+  return res.render("order-form-page", {
+    layout: "my-layouts",
+    menuItem: items,
+  });
 });
 
 // endpoint for posting datas of order form into db
@@ -119,27 +112,42 @@ app.post("/add-order", async (req, res) => {
   //for timestamp
   const today = new Date();
 
+  //Getting items from db
+  const itemFromDB = await Item.find().lean().exec();
+  let items = [];
+  //looping through item lists from db
+  for (let item of itemFromDB) {
+    // item._id.toString() - converts item's id to string
+    if (item._id.toString() === req.params.itemId) {
+      item.checked = true;
+    }
+    items.push(item);
+  }
+
   try {
     if (
-      customerNameFromUI === undefined ||
-      customerNameFromUI === null ||
-      addressFromUI === undefined ||
-      addressFromUI === null ||
+      customerNameFromUI === "" ||
+      addressFromUI === "" ||
       itemSelected === undefined ||
       itemSelected === null
     ) {
       return res.render("order-form-page", {
         layout: "my-layouts",
         errMsg: "ERROR: Fill the form to place order!",
+        menuItem: items,
       });
     } else {
-      // Inserting customer order to db
+      // initialize empty cart array
       let cart = [];
       const items = await Item.find(itemSelected).lean().exec();
+      //looping through item list of selected items and pushing selected item's id,
+      // quantity(defaultly 1) into cart
       for (let item of items) {
         cart.push({ item: item._id.toString(), quantity: 1, _id: item._id });
       }
       console.log(`cart data is: ${cart}`);
+
+      // creating variable to store customer order that can be inserted into db
       const customerOrder = new Order({
         customer: customerNameFromUI,
         address: addressFromUI,
@@ -160,12 +168,15 @@ app.post("/add-order", async (req, res) => {
         driver: "",
       });
 
+      //customerOrder.save() - inserting customer order data into db
       const orderResults = await customerOrder.save();
 
+      //error handling
       if (orderResults === null) {
         return res.render("order-form-page", {
           layout: "my-layouts",
           errMsg: "ERROR: Order cannot be placed!",
+          menuItem: items,
         });
       } else {
         return res.redirect(`/order-receipt/${orderResults._id}`);
@@ -176,6 +187,7 @@ app.post("/add-order", async (req, res) => {
     return res.render("order-form-page", {
       layout: "my-layouts",
       errMsg: "ERROR: Order cannot be placed!",
+      menuItem: items,
     });
   }
 });
@@ -221,12 +233,19 @@ app.get("/order-item-status/:orderId", async (req, res) => {
   const orderIdFromUI = req.params.orderId;
 
   try {
-    const orderResults = await Order.findOne({ _id: orderIdFromUI })
-      .lean()
-      .exec();
-    // console.log(orderResults)
+    if (orderIdFromUI === "") {
+        return res.render("order-status-page", {
+            layout: "my-layouts",
+            errMsg: "ERROR: Order cannot be placed!",
+          });
+    } else {
+      const orderResults = await Order.findOne({ _id: orderIdFromUI })
+        .lean()
+        .exec();
+      // console.log(orderResults)
 
-    return res.json(orderResults);
+      return res.json(orderResults);
+    }
   } catch (err) {
     //status(404) : order not found
     return res.status(404).send({});
