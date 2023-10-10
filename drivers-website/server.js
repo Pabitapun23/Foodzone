@@ -87,7 +87,7 @@ app.get("/",sessionQuery,(req, res) => {
 })
 
 app.get("/login", (req, res) => {
-    return res.render("login.hbs",{layout: "header-footer.hbs", login: true})
+    return res.render("login.hbs",{layout: "header-footer.hbs", notShowTabs: true})
 })
 
 app.post("/login", async(req, res) => {
@@ -117,7 +117,7 @@ app.post("/login", async(req, res) => {
 })
 
 app.get("/register",(req,res)=>{
-    return res.render("register.hbs",{layout: "header-footer.hbs"})
+    return res.render("register.hbs",{layout: "header-footer.hbs", notShowTabs:true})
 })
 
 app.post("/register",async (req,res)=>{
