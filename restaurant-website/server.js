@@ -73,7 +73,7 @@ app.get("/", async (req, res) => {
   let inTransit = [];
 
   try {
-    const details = await Order.find().sort({ timestamp: 1 }).lean().exec();
+    const details = await Order.find().sort({ timestamp: -1 }).lean().exec();
 
     for (currOrder of details) {
       if (currOrder.status === DELIVERED) {

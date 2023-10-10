@@ -69,7 +69,7 @@ const getAPI = async (method, url) => {
 const getCustomers = () => {
   let customerName = document.getElementById("customerName").value;
 
-  getAPI("GET", `http://localhost:${PORT}/customers/asc/${customerName}`);
+  getAPI("GET", `http://localhost:${PORT}/customers/desc/${customerName}`);
 };
 
 document

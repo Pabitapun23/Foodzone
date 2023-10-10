@@ -21,13 +21,6 @@
             {{/if}}
         </div>
 
-        {{#if details.imgFilename}}
-        <h4>Proof of Delivery</h4>
-        <div>
-            <img src="/get-image/{{details.imgFilename}}" alt="Proof of Delivery" id="proof-of-delivery">
-        </div>
-        {{/if}}
-
         <h4>Order</h4>
         <table id="order-table">
             {{#each items}}
@@ -47,6 +40,13 @@
                 <td><b>${{total}}</b></td>
             </tr>
         </table>
+
+        {{#if details.imgFilename}}
+        <h4>Proof of Delivery</h4>
+        <div>
+            <img src="/get-image/{{details.imgFilename}}" alt="Proof of Delivery" id="proof-of-delivery">
+        </div>
+        {{/if}}
 
         {{#if statusButtonReference.[3]}}
         <h4>Update Delivery Status</h4>
