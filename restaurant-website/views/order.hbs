@@ -8,14 +8,14 @@
         <h4>Customer</h4>
         <div>
             <p>{{details.customer}}</p>
-            <p>{{details.address}}</p>
+            <p>Address: {{details.address}}</p>
         </div>
 
         <h4>Driver</h4>
         <div>
             {{#if driver}}
             <p>{{driver.name}}</p>
-            <p>{{driver.license}}</p>
+            <p>License Plate: {{driver.license}}</p>
             {{else}}
             <p>Waiting for a driver to accept</p>
             {{/if}}
