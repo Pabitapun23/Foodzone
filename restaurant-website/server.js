@@ -310,30 +310,31 @@ app.get("/orders/:id", async (req, res) => {
       total += currItem.quantity * itemDetails.price;
     }
 
-    if (details.driver !== "") {
-      const driver = await Driver.findOne({ _id: details.driver })
-        .lean()
-        .exec();
-
-      return res.render("order", {
-        layout: "header-footer",
-        page: "Order",
-        details: details,
-        items: items,
-        driver: driver,
-        total: total.toFixed(2),
-        statusButtonReference: statusButtonReference,
-      });
-    }
-
-    return res.render("order", {
+    let returns = {
       layout: "header-footer",
       page: "Order",
       details: details,
       items: items,
       total: total.toFixed(2),
       statusButtonReference: statusButtonReference,
-    });
+    };
+
+    if (details.driver !== "") {
+      const driver = await Driver.findOne({ _id: details.driver })
+        .lean()
+        .exec();
+
+      if (details.imgFilename) {
+        returns.proofOfDelivery = {
+          image: details.imgFilename.data.toString("base64"),
+          type: details.imgFilename.contentType,
+        };
+      }
+
+      returns.driver = driver;
+    }
+
+    return res.render("order", returns);
   } catch (err) {
     console.log(err);
     return res.redirect("/");
@@ -368,16 +369,13 @@ app.post("/orders/update-status", async (req, res) => {
     if (status === DELIVERED) {
       return res.redirect("/history");
     }
+
     return res.redirect("/");
   } catch (err) {
     console.log(err);
     return res.redirect("/");
   }
 });
-
-app.get("/get-image/:file", (req, res) => {
-  return res.sendFile(path.join(__dirname, `../drivers-website/public/deliveryEvidence/${req.params.file}`));
-})
 
 // #region ORDER FORM
 app.get("/order-form", async (req, res) => {
