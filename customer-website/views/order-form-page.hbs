@@ -17,13 +17,12 @@
     <input type="text" name="address" placeholder="Enter your address" />
     <br />
     <label for="items">Select Item</label>
+    {{#each menuItem}}
     <div class="checkbox">
-        {{#each menuItem}}
         <input type="checkbox" id="{{this._id}}" name="items[_id]" value="{{this._id}}" {{#if this.checked}} checked {{/if}}/>
         <label for="{{this._id}}">{{this.name}}</label><br />
-        {{/each}}
     </div>
-    
+    {{/each}}
     <br />
     <button type="submit" id="btn-order" class="btn-form">Order</button>
   </form>
