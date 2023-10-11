@@ -61,7 +61,7 @@ const getDataFromAPI = async () => {
     document.getElementById(
       "statusContainer"
     ).innerHTML = `<section id="statusCard">
-          <p style="color: red">Could not find specified order: ${orderIdFromUI}</p>
+          <p style="color: red;">Could not find specified order:  ${orderIdFromUI.replace(/(.{35})/g, "$1<br>")}</p>
         </section>`;
   }
 };
