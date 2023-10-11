@@ -272,6 +272,7 @@ app.get("/customers/:type/:name", async (req, res) => {
 });
 // #endregion SEARCH CUSTOMER
 
+// #region MANAGE ORDERS
 app.get("/orders/:id", async (req, res) => {
   const statusButtonReference = [0, 0, 0, 1];
   let items = [];
@@ -376,6 +377,7 @@ app.post("/orders/update-status", async (req, res) => {
     return res.redirect("/");
   }
 });
+// #endregion MANAGE ORDERS
 
 // #region ORDER FORM
 app.get("/order-form", async (req, res) => {
