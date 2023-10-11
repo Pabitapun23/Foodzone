@@ -1,4 +1,4 @@
-// client side script
+// Client Side Script
 
 const getDataFromAPI = async () => {
   //get orderid from input field
@@ -45,6 +45,7 @@ const getDataFromAPI = async () => {
       document.getElementById(
         "statusContainer"
       ).innerHTML = `<section id="statusCard">
+           <h4 style="color: #8d4004; font-size: 23px; margin: 0; padding-bottom: 20px;"> Your Status </h4>
             <p>Order ID: <span>${responseJSON._id}</span></p>
             <p>Status: <span>${getReadableOrderStatus(
               responseJSON.status

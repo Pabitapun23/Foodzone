@@ -1,18 +1,23 @@
 <main>
-  <h5 style="color: green;">Your Order is placed Successfully!</h5>
+  <h4 style="color: green; text-align: center; font-size: 18px">Your Order is placed Successfully!</h4>
 
   <section class="form">
-    <h3>Your Receipt</h3>
-    <p>Name: {{orderReceiptDetails.customer}}</p>
-    <p>Address: {{orderReceiptDetails.address}}</p>
+    <h3 style="color: #8d4004; font-size: 28px; margin: 0; padding-bottom: 15px">Your Receipt</h3>
+    <p>Name: <span>{{orderReceiptDetails.customer}}</span></p>
+    <p>Address: <span>{{orderReceiptDetails.address}}</span></p>
     <p>Ordered Items: </p>
-    {{#each orderedItems}}
-     <div class="orderItemNames">
-        <p>Name: {{this.name}}</p>
-      </div>
-    {{/each}}
+        <ol style="margin: 0; color: #dd571c;">
+            {{#each orderedItems}}
+            <li>
+                <span>{{this.name}} </span>
+            </li>
+            {{/each}}
+        </ol>
+    {{!-- {{#each orderedItems}}
+        <span>{{this.name}} </span>
+    {{/each}} --}}
     
-    <p>Total Amount: ${{orderTotal}}</p>
-    <p>Order Confirmation Number: {{orderReceiptDetails._id}}</p>
+    <p style="padding-top: 5px;">Total Amount: <span>${{orderTotal}}</span></p>
+    <p>Order Confirmation Number: <span>{{orderReceiptDetails._id}}</span></p>
   </section>
 </main>

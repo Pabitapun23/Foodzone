@@ -33,7 +33,7 @@ db.once("open", () => {
   console.log("Mongo DB connected successfully.");
 });
 
-//setup your database models
+//setup your database schema and models
 const Schema = mongoose.Schema;
 const itemSchema = new Schema({
   name: String,
@@ -57,7 +57,7 @@ const orderSchema = new Schema({
 
 //mongoose model object
 const Item = mongoose.model("items_collection", itemSchema);
-const Order = mongoose.model("orders_collections", orderSchema);
+const Order = mongoose.model("orders_collection", orderSchema);
 
 // Endpoint for homepage
 app.get("/", async (req, res) => {
