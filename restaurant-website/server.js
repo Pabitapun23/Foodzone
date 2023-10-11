@@ -353,64 +353,64 @@ app.post("/orders/update-status", async (req, res) => {
 // #endregion MANAGE ORDERS
 
 // #region ORDER FORM
-app.get("/order-form", async (req, res) => {
-  const orders = await Item.find().lean().exec();
-  const drivers = await Driver.find().lean().exec();
+// app.get("/order-form", async (req, res) => {
+//   const orders = await Item.find().lean().exec();
+//   const drivers = await Driver.find().lean().exec();
 
-  res.render("order-form", {
-    layout: "header-footer",
-    page: "Order Form",
-    orders: orders,
-    drivers: drivers,
-  });
-});
+//   res.render("order-form", {
+//     layout: "header-footer",
+//     page: "Order Form",
+//     orders: orders,
+//     drivers: drivers,
+//   });
+// });
 
-app.post("/add-order", async (req, res) => {
-  const request = req.body;
-  const today = new Date();
+// app.post("/add-order", async (req, res) => {
+//   const request = req.body;
+//   const today = new Date();
 
-  let cart = [];
-  for (let i = 0; i < request.item.length; i++) {
-    if (parseInt(request.quantity[i]) !== 0) {
-      cart.push({
-        item: request.item[i],
-        quantity: parseInt(request.quantity[i]),
-      });
-    }
-  }
+//   let cart = [];
+//   for (let i = 0; i < request.item.length; i++) {
+//     if (parseInt(request.quantity[i]) !== 0) {
+//       cart.push({
+//         item: request.item[i],
+//         quantity: parseInt(request.quantity[i]),
+//       });
+//     }
+//   }
 
-  if (cart.length > 0) {
-    const order = new Order({
-      customer: request.name,
-      address: request.address,
-      timestamp:
-        today.getFullYear() +
-        "-" +
-        (today.getMonth() + 1).toString().padStart(2, "0") +
-        "-" +
-        today.getDate().toString().padStart(2, "0") +
-        " " +
-        today.getHours().toString().padStart(2, "0") +
-        ":" +
-        today.getMinutes().toString().padStart(2, "0") +
-        ":" +
-        today.getSeconds().toString().padStart(2, "0"),
-      status: RECEIVED,
-      items: cart,
-      driver: request.driver,
-      imgFilename: "",
-    });
+//   if (cart.length > 0) {
+//     const order = new Order({
+//       customer: request.name,
+//       address: request.address,
+//       timestamp:
+//         today.getFullYear() +
+//         "-" +
+//         (today.getMonth() + 1).toString().padStart(2, "0") +
+//         "-" +
+//         today.getDate().toString().padStart(2, "0") +
+//         " " +
+//         today.getHours().toString().padStart(2, "0") +
+//         ":" +
+//         today.getMinutes().toString().padStart(2, "0") +
+//         ":" +
+//         today.getSeconds().toString().padStart(2, "0"),
+//       status: RECEIVED,
+//       items: cart,
+//       driver: request.driver,
+//       imgFilename: "",
+//     });
 
-    if (request.driver !== "") {
-      order.status = IN_TRANSIT;
-    }
+//     if (request.driver !== "") {
+//       order.status = IN_TRANSIT;
+//     }
 
-    await order.save();
-    return res.redirect("/");
-  }
+//     await order.save();
+//     return res.redirect("/");
+//   }
 
-  return res.redirect("/");
-});
+//   return res.redirect("/");
+// });
 // #endregion ORDER FORM
 
 // #region BIOLERPLATE 2
