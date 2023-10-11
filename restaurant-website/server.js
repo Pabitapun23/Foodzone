@@ -73,39 +73,21 @@ app.get("/", async (req, res) => {
   let inTransit = [];
 
   try {
-    const details = await Order.find().sort({ timestamp: -1 }).lean().exec();
-
-    for (currOrder of details) {
-      if (currOrder.status === DELIVERED) {
-        continue;
+    const response = await fetch(
+      `http://localhost:${HTTP_PORT}/customers/desc/`,
+      {
+        method: "GET",
+        headers: { "Content-type": "application/json" },
       }
-
-      let items = [];
-      for (currItem of currOrder.items) {
-        const itemDetails = await Item.findOne({ _id: currItem.item })
-          .lean()
-          .exec();
-        items.push({
-          item: itemDetails,
-          quantity: currItem.quantity.toString().padStart(2, "0"),
-        });
-      }
-
-      // currOrder.timestamp = new Date(currOrder.timeStamp);
-      currOrder.items = items;
-
-      switch (currOrder.status) {
-        case READY_FOR_DELIVERY:
-          readyForDelivery.push(currOrder);
-          break;
-        case IN_TRANSIT:
-          inTransit.push(currOrder);
-          break;
-        default:
-          received.push(currOrder);
-          break;
-      }
+    );
+    if (response.ok === false) {
+      throw Error(`${response.status} - cannot connect to API`);
     }
+    const responseJSON = await response.json();
+
+    received = responseJSON.received;
+    readyForDelivery = responseJSON.readyForDelivery;
+    inTransit = responseJSON.inTransit;
   } catch (err) {
     console.log(err);
   }
@@ -123,28 +105,19 @@ app.get("/history", async (req, res) => {
   let delivered = [];
 
   try {
-    const details = await Order.find().sort({ timestamp: -1 }).lean().exec();
-
-    for (currOrder of details) {
-      if (currOrder.status !== DELIVERED) {
-        continue;
+    const response = await fetch(
+      `http://localhost:${HTTP_PORT}/customers/desc/`,
+      {
+        method: "GET",
+        headers: { "Content-type": "application/json" },
       }
-
-      let items = [];
-      for (currItem of currOrder.items) {
-        const itemDetails = await Item.findOne({ _id: currItem.item })
-          .lean()
-          .exec();
-        items.push({
-          item: itemDetails,
-          quantity: currItem.quantity.toString().padStart(2, "0"),
-        });
-      }
-
-      // currOrder.timestamp = new Date(currOrder.timeStamp);
-      currOrder.items = items;
-      delivered.push(currOrder);
+    );
+    if (response.ok === false) {
+      throw Error(`${response.status} - cannot connect to API`);
     }
+    const responseJSON = await response.json();
+
+    delivered = responseJSON.delivered;
   } catch (err) {
     console.log(err);
   }
