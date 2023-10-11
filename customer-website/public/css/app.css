@@ -280,9 +280,17 @@ input[type="checkbox"] {
   height: 20px;
 }
 
-.checkbox > label {
+.checkbox {
+  display: flex;
+}
+
+.checkbox > input {
+  margin-top: 1px;
+}
+
+.checkbox label {
   font-size: 20px;
-  padding: 0px 5px 10px 5px;
+  padding-left: 10px;
 }
 
 /* style check and order button */
