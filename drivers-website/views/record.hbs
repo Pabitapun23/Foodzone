@@ -33,7 +33,7 @@
                             </ul>
                             {{#if imgFilename}}
                                 <p style="color:#c06d6d">You have provided the evidence. Thank you.</p>
-                                <img src="deliveryEvidence/{{imgFilename}}" width="100px" height="100px">
+                                <img src="data:image/jpeg;base64,{{imgFilename}}" width="100px" height="100px">
                             {{/if}}
                             <div style="display:flex; flex-direction: column; gap: 10px">
                                 <label for="image">Upload another new delivery evidence:</label>

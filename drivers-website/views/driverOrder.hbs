@@ -38,7 +38,7 @@
                                 <label for="image">Upload delivery evidence:</label>
                                 <input type="file" name="evidenceImage" required="true">
                                 {{#if imgFilename}}
-                                <img src="deliveryEvidence/{{imgFilename}}" width="100px" height="100px">
+                                <img src="data:image/jpeg;base64,{{imgFilename}}" width="100px" height="100px">
                                 {{/if}}
                             </div>
 

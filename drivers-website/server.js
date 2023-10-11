@@ -4,6 +4,7 @@ const exphbs = require('express-handlebars');
 const session = require('express-session');
 const multer = require("multer")
 const path = require("path")
+const fs = require("fs")
 const myStorage = multer.diskStorage({
     destination: path.join(__dirname,"/public/deliveryEvidence"),
     filename: function(req,file,cb){
@@ -58,7 +59,7 @@ const orderSchema = new mongoose.Schema({
         quantity: Number,
     }],
     driver: String,
-    imgFilename: String,
+    imgFilename: {data: Buffer, contentType: String},
 })
 
 const itemSchema = new mongoose.Schema({
@@ -180,7 +181,6 @@ app.get("/record",sessionQuery, async(req,res)=>{
     try{
         const finalOrderList=[]
         const orderList = await order.find({driver: req.session.driverInfo.id, status:OrderStatus.DELIVERED}).lean().exec()
-        console.log("orderList:", orderList)
         for(let i=0;i<orderList.length;i++){
             const orderItems=[]
             for(let j=0;j<orderList[i].items.length;j++){
@@ -190,6 +190,8 @@ app.get("/record",sessionQuery, async(req,res)=>{
                     quantity: orderList[i].items[j].quantity
                 })
             }
+            const img = orderList[i].imgFilename ? orderList[i].imgFilename.data.toString('base64') : ""
+
             finalOrderList.push({
                 id: orderList[i]._id,
                 customer: orderList[i].customer,
@@ -198,7 +200,7 @@ app.get("/record",sessionQuery, async(req,res)=>{
                 status: orderList[i].status,
                 items: orderItems,
                 totalItems: orderList[i].items.length,
-                imgFilename: orderList[i].imgFilename
+                imgFilename: img
             })
         }
         return res.render("record.hbs",{layout: "header-footer.hbs", orderList: finalOrderList})
@@ -220,6 +222,7 @@ app.get("/order",sessionQuery, async(req,res)=>{
                     quantity: orderList[i].items[j].quantity
                 })
             }
+            const img = orderList[i].imgFilename ? orderList[i].imgFilename.data.toString('base64') : ""
             finalOrderList.push({
                 id: orderList[i]._id,
                 customer: orderList[i].customer,
@@ -228,7 +231,7 @@ app.get("/order",sessionQuery, async(req,res)=>{
                 status: orderList[i].status,
                 items: orderItems,
                 totalItems: orderList[i].items.length,
-                imgFilename: orderList[i].imgFilename
+                imgFilename: img
             })
         }
         return res.render("driverOrder.hbs",{layout: "header-footer.hbs", orderList: finalOrderList})
@@ -251,7 +254,10 @@ app.post("/delivered",sessionQuery,upload.single("evidenceImage"), async(req,res
     try{
         const updateOrderParams = {
             status: OrderStatus.DELIVERED,
-            imgFilename: req.file.filename,
+            imgFilename: {
+                data: fs.readFileSync(path.join(__dirname,"/public/deliveryEvidence/"+req.file.filename)),
+                contentType: "image/png"
+            },
         }
         await order.updateOne({_id: req.body.orderId},{$set: updateOrderParams});
         res.redirect("/order")
@@ -263,7 +269,10 @@ app.post("/delivered",sessionQuery,upload.single("evidenceImage"), async(req,res
 app.post("/resubmit",sessionQuery,upload.single("evidenceImage"), async(req,res)=>{
     try{
         const updateOrderParams = {
-            imgFilename: req.file.filename,
+            imgFilename: {
+                data: fs.readFileSync(path.join(__dirname,"/public/deliveryEvidence/"+req.file.filename)),
+                contentType: "image/png"
+            },
         }
         await order.updateOne({_id: req.body.orderId},{$set: updateOrderParams});
         res.redirect("/record")
