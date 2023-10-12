@@ -50,9 +50,9 @@ const orderSchema = new Schema({
   address: String,
   timestamp: String,
   status: Number,
-  items: [{ item: String, quantity: Number }],
+  items: [{ item: mongoose.Schema.Types.ObjectId, quantity: Number }],
   driver: String,
-  imgFilename: String,
+  imgFilename: { data: Buffer, contentType: String },
 });
 
 //mongoose model object
@@ -212,7 +212,7 @@ app.get("/order-receipt/:orderId", async (req, res) => {
     res.render("order-confirmation-page", {
       layout: "my-layouts",
       orderReceiptDetails: orderReceipt,
-      orderTotal: total,
+      orderTotal: total.toFixed(2),
       orderedItems: items,
     });
   } catch (err) {
@@ -234,10 +234,10 @@ app.get("/order-item-status/:orderId", async (req, res) => {
 
   try {
     if (orderIdFromUI === "") {
-        return res.render("order-status-page", {
-            layout: "my-layouts",
-            errMsg: "ERROR: Order cannot be placed!",
-          });
+      return res.render("order-status-page", {
+        layout: "my-layouts",
+        errMsg: "ERROR: Order cannot be placed!",
+      });
     } else {
       const orderResults = await Order.findOne({ _id: orderIdFromUI })
         .lean()
