@@ -8,7 +8,7 @@ const getDataFromAPI = async () => {
   document.getElementById("errMsgCheckStatus").innerHTML = "";
   document.getElementById("statusContainer").innerHTML = "";
 
-  try {  
+  try {
     if (orderIdFromUI.length > 0) {
       //Background task
       const response = await fetch(
@@ -58,11 +58,12 @@ const getDataFromAPI = async () => {
     }
   } catch (err) {
     console.log(`Unable to get the data from API due to error : ${err}`);
-    document.getElementById(
-      "statusContainer"
-    ).innerHTML = `<section id="statusCard">
-          <p style="color: red;">Could not find specified order:  ${orderIdFromUI.replace(/(.{35})/g, "$1<br>")}</p>
-        </section>`;
+    document.getElementById("statusContainer").innerHTML = `
+          <p style="color: red; font-size: 20px; text-align: center;">Could not find specified order:  ${orderIdFromUI.replace(
+            /(.{25})/g,
+            "$1<br>"
+          )}</p>
+       `;
   }
 };
 

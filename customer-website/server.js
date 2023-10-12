@@ -43,8 +43,6 @@ const itemSchema = new Schema({
   featured: Boolean,
 });
 
-//items: [{ item: String, quantity: Number }],
-//   items: Array,
 const orderSchema = new Schema({
   customer: String,
   address: String,
