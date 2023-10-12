@@ -2,12 +2,21 @@
   {{! Order status section }}
   <h1>Check the Status of your Order</h1>
 
-    <h5 style="color: red;" id="errMsgCheckStatus"></h5>
+  {{!-- Error Msg --}}
+  <p
+    style="color: red; font-size: 20px; text-align: center;"
+    id="errMsgCheckStatus"
+  ></p>
 
   {{! form for checking order status }}
   <section class="form">
     <label for="orderId">Order ID</label>
-    <input type="text" name="orderId" placeholder="Enter your order Id" id="orderId"/>
+    <input
+      type="text"
+      name="orderId"
+      placeholder="Enter your order Id"
+      id="orderId"
+    />
     <br />
     <button type="submit" id="btn-check" class="btn-form">Check</button>
   </section>
