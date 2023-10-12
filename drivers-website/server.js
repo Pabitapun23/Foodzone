@@ -140,7 +140,14 @@ app.post("/register",async (req,res)=>{
         // set session
         req.session.username = req.body.username;
         //
-        console.log(result)
+        req.session.driverInfo = {
+            username: result.username,
+            id: result._id,
+            name: result.name,
+            vehicle: result.vehicle,
+            color: result.color,
+            license: result.license
+        };
         return res.redirect("/dashboard");
     } catch(error){
         console.log(error)
