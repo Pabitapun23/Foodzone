@@ -153,7 +153,7 @@ app.get("/logout", (req, res) => {
 })
 app.get("/dashboard",sessionQuery, async (req, res) => {
     const finalOrderList=[]
-    const orderList = await order.find({status: OrderStatus.READY_FOR_DELIVERY, driver:""}).lean().exec()
+    const orderList = await order.find({status: OrderStatus.READY_FOR_DELIVERY, driver:""}).sort({timestamp: -1}).lean().exec()
     
     for(let i=0;i<orderList.length;i++){
         const orderItems=[]
@@ -180,7 +180,7 @@ app.get("/dashboard",sessionQuery, async (req, res) => {
 app.get("/record",sessionQuery, async(req,res)=>{
     try{
         const finalOrderList=[]
-        const orderList = await order.find({driver: req.session.driverInfo.id, status:OrderStatus.DELIVERED}).lean().exec()
+        const orderList = await order.find({driver: req.session.driverInfo.id, status:OrderStatus.DELIVERED}).sort({timestamp: -1}).lean().exec()
         for(let i=0;i<orderList.length;i++){
             const orderItems=[]
             for(let j=0;j<orderList[i].items.length;j++){
